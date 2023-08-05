@@ -6,11 +6,13 @@ namespace RoommateMatcher.Validations
 {
 	public class PasswordValidator:IPasswordValidator<AppUser>
 	{
-        public Task<IdentityResult> ValidateAsync(UserManager<AppUser> manager, AppUser user, string? password)
+        public Task<IdentityResult> ValidateAsync(UserManager<AppUser> manager,
+            AppUser user, string? password)
         {
             var errors = new List<IdentityError>();
 
-            if (password.ToLower().Contains(user.UserName.ToLower()))
+            if (password != null && (password ?? "").ToLower()
+                .Contains((user.UserName ?? "").ToLower()))
             {
                 errors.Add(new()
                 {

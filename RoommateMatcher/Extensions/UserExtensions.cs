@@ -5,10 +5,15 @@ namespace RoommateMatcher.Extensions
 {
     public static class UserExtensions
     {
-        public static IQueryable<AppUser> FilterByPreferences(this IQueryable<AppUser> users, AppUserPreferences preferences, AppUser user)
+        public static IQueryable<AppUser> FilterByPreferences(
+            this IQueryable<AppUser> users,
+            AppUserPreferences preferences,
+            AppUser user)
         {
-            var preferenceProperties = typeof(AppUserPreferences).GetProperties();
-            var byteProperties = preferenceProperties.Where(z => z.PropertyType == typeof(byte));
+            var preferenceProperties = typeof(AppUserPreferences)
+                .GetProperties();
+            var byteProperties = preferenceProperties
+                .Where(z => z.PropertyType == typeof(byte));
             var rangeProperties = preferenceProperties
                 .Where(z => z.PropertyType == typeof(int) ||
                     z.PropertyType == typeof(float)
@@ -19,34 +24,53 @@ namespace RoommateMatcher.Extensions
                 switch (property.Name)
                 {
                     case "SmokingAllowed":
-                        users = users.Where(z => z.Status && (z.Preferences.SmokingAllowed == preferences.SmokingAllowed
-                        || (preferences.SmokingAllowed == 2 || z.Preferences.SmokingAllowed == 2)));
+                        users = users.Where(z => z.Status &&
+                        (z.Preferences.SmokingAllowed ==
+                        preferences.SmokingAllowed
+                        || (preferences.SmokingAllowed == 2 ||
+                        z.Preferences.SmokingAllowed == 2)));
                         break;
                     case "GuestsAllowed":
-                        users = users.Where(z => z.Status &&  (z.Preferences.GuestsAllowed == preferences.GuestsAllowed
-                        || (preferences.GuestsAllowed == 2 || z.Preferences.GuestsAllowed == 2)));
+                        users = users.Where(z => z.Status &&
+                        (z.Preferences.GuestsAllowed ==
+                        preferences.GuestsAllowed
+                        || (preferences.GuestsAllowed == 2 ||
+                        z.Preferences.GuestsAllowed == 2)));
                         break;
                     case "PetsAllowed":
-                        users = users.Where(z => z.Status &&(z.Preferences.PetsAllowed == preferences.PetsAllowed
-                        || (preferences.PetsAllowed == 2 || z.Preferences.PetsAllowed == 2)));
+                        users = users.Where(z => z.Status &&
+                        (z.Preferences.PetsAllowed == preferences.PetsAllowed
+                        || (preferences.PetsAllowed == 2 ||
+                        z.Preferences.PetsAllowed == 2)));
                         break;
                     case "GenderPref":
-                        users = users.Where(z => (z.Status && (z.Preferences.GenderPref == preferences.GenderPref
+                        users = users.Where(z => (z.Status &&
+                        (z.Preferences.GenderPref == preferences.GenderPref
                         && (z.Gender == user.Gender
-                        || (z.Preferences.GenderPref ==2 && preferences.GenderPref == 2)))
-                        || (preferences.GenderPref == 2 && z.Gender == user.Gender)));
+                        || (z.Preferences.GenderPref == 2 &&
+                        preferences.GenderPref == 2)))
+                        || (preferences.GenderPref == 2 &&
+                        z.Gender == user.Gender)));
                         break;
                     case "ForeignersAllowed":
-                        users = users.Where(z => z.Status && (z.Preferences.ForeignersAllowed == preferences.ForeignersAllowed
-                        || (preferences.ForeignersAllowed == 2 || z.Preferences.ForeignersAllowed == 2)));
+                        users = users.Where(z => z.Status &&
+                        (z.Preferences.ForeignersAllowed ==
+                        preferences.ForeignersAllowed ||
+                        (preferences.ForeignersAllowed == 2 ||
+                        z.Preferences.ForeignersAllowed == 2)));
                         break;
                     case "AlcoholAllowed":
-                        users = users.Where(z => z.Status &&(z.Preferences.AlcoholAllowed == preferences.AlcoholAllowed
-                        || (preferences.AlcoholAllowed == 2 || z.Preferences.AlcoholAllowed == 2)));
+                        users = users.Where(z => z.Status &&
+                        (z.Preferences.AlcoholAllowed ==
+                        preferences.AlcoholAllowed ||
+                        (preferences.AlcoholAllowed == 2 ||
+                        z.Preferences.AlcoholAllowed == 2)));
                         break;
                     case "Duration":
-                        users = users.Where(z => z.Status && (z.Preferences.Duration == preferences.Duration
-                        || (preferences.Duration == 2 || z.Preferences.Duration == 2)));
+                        users = users.Where(z => z.Status &&
+                        (z.Preferences.Duration == preferences.Duration ||
+                        (preferences.Duration == 2 ||
+                        z.Preferences.Duration == 2)));
                         break;
                     case "Address":
                         var addressProperties = typeof(AppUserAddress).GetProperties();
@@ -55,16 +79,28 @@ namespace RoommateMatcher.Extensions
                             switch (address.Name)
                             {
                                 case "Country":
-                                    users = users.Where(z => z.Status && z.Preferences.Address.Country == preferences.Address.Country);
+                                    users = users.Where(z => z.Status &&
+                                    (preferences.Address.Country == "" ||
+                                    z.Preferences.Address.Country ==
+                                    preferences.Address.Country));
                                     break;
                                 case "City":
-                                    users = users.Where(z => z.Status && z.Preferences.Address.City == preferences.Address.City);
+                                    users = users.Where(z => z.Status &&
+                                    (preferences.Address.City == "" ||
+                                    z.Preferences.Address.City ==
+                                    preferences.Address.City));
                                     break;
                                 case "District":
-                                    users = users.Where(z => z.Status && z.Preferences.Address.District == preferences.Address.District);
+                                    users = users.Where(z => z.Status &&
+                                    (preferences.Address.District == "" ||
+                                    z.Preferences.Address.District ==
+                                    preferences.Address.District));
                                     break;
                                 case "Neighborhood":
-                                    users = users.Where(z => z.Status && z.Preferences.Address.Neighborhood == preferences.Address.Neighborhood);
+                                    users = users.Where(z => z.Status &&
+                                    (preferences.Address.Neighborhood == "" ||
+                                    z.Preferences.Address.Neighborhood ==
+                                    preferences.Address.Neighborhood));
                                     break;
                                 default:
                                     break;
@@ -81,11 +117,15 @@ namespace RoommateMatcher.Extensions
                 switch (property.Name)
                 {
                     case "BudgetMin":
-                        users = users.Where(z => z.Preferences.BudgetMin >= preferences.BudgetMin);
+                        users = users.Where(z => z.Preferences.BudgetMin
+                        >= preferences.BudgetMin);
                         break;
                     case "AcceptableRoommatesMin":
-                        users = users.Where(z => z.Preferences.AcceptableRoommatesMin >= preferences.AcceptableRoommatesMin
-                        && z.Preferences.AcceptableRoommatesMin <= preferences.AcceptableRoommatesMax);
+                        users = users.Where(z => z.Preferences
+                        .AcceptableRoommatesMin >=
+                        preferences.AcceptableRoommatesMin
+                        && z.Preferences.AcceptableRoommatesMin
+                        <= preferences.AcceptableRoommatesMax);
                         break;
                     default:
                         break;

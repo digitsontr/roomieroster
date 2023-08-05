@@ -31,18 +31,15 @@ namespace RoommateMatcher.Controllers
         public async Task<IActionResult> GetAsync()
         {
             var hasUser = await _context.Users
-                .Where(z => z.UserName == HttpContext.User.Identity.Name)
-                .Include(z => z.Preferences).ThenInclude(z=>z.Address)
+                .Where(z => z.UserName == HttpContext.User.Identity!.Name)
+                .Include(z => z.Preferences)
+                .ThenInclude(z=>z.Address)
                 .SingleOrDefaultAsync();
-
-            if (hasUser == null)
-            {
-                return CreateActionResult(CustomResponseDto<MatchesDto>.Fail(404, new List<string> { "Kullanıcının bu işlem için yetkisi bulunmuyor" }));
-            }
-
-            var allUsers = _context.Users.Include(z => z.Preferences).ThenInclude(z=>z.Address)
-                .FilterByPreferences(hasUser.Preferences, hasUser).ToList();
-
+            var allUsers = _context.Users
+                .Include(z => z.Preferences)
+                .ThenInclude(z=>z.Address)
+                .FilterByPreferences(hasUser!.Preferences, hasUser)
+                .ToList();
             var matchedUserDtos = new List<UserDto>();
 
             foreach (var user in allUsers)

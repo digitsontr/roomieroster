@@ -26,50 +26,40 @@ namespace RoommateMatcher.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync(string id)
         {
-            var hasUser = await _context.Users.Where(z => z.Id == id).Include(z=>z.Preferences).SingleOrDefaultAsync();
+            var hasUser = await _context.Users
+                .Where(z => z.Id == id)
+                .Include(z=>z.Preferences)
+                .ThenInclude(z=>z.Address)
+                .SingleOrDefaultAsync();
 
             if (hasUser == null)
             {
-                return CreateActionResult(CustomResponseDto<UserDto>.Fail(404, new List<string>() { "Kullanıcı bulunamadu" }));
+                return CreateActionResult(CustomResponseDto<UserDto>.Fail(404,
+                    new List<string>() { "Kullanıcı bulunamadu" }));
             }
 
-            return CreateActionResult(CustomResponseDto<UserDto>.Success(200, new UserDto()
-            {
-                Id = hasUser.Id,
-                FirstName = hasUser.FirstName,
-                LastName = hasUser.LastName,
-                Username = hasUser.UserName,
-                Email = hasUser.Email,
-                ProfilePhoto = hasUser.ProfilePhoto,
-                Gender = hasUser.Gender,
-                Preferences = new UserPreferenecesDto()
-                {
-                    SmokingAllowed = hasUser.Preferences.SmokingAllowed,
-                    GuestsAllowed = hasUser.Preferences.GuestsAllowed,
-                    PetsAllowed = hasUser.Preferences.PetsAllowed,
-                    GenderPref = hasUser.Preferences.GenderPref,
-                    ForeignersAllowed = hasUser.Preferences.ForeignersAllowed,
-                    AlcoholAllowed = hasUser.Preferences.AlcoholAllowed,
-                    Duration = hasUser.Preferences.Duration,
-                    AcceptableRoommatesMin = hasUser.Preferences.AcceptableRoommatesMin,
-                    AcceptableRoommatesMax = hasUser.Preferences.AcceptableRoommatesMax,
-                    BudgetMin = hasUser.Preferences.BudgetMin,
-                    BudgetMax = hasUser.Preferences.BudgetMax,
-                    HasHome = hasUser.Preferences.HasHome
-                }
-            }));
+            return CreateActionResult(CustomResponseDto<UserDto>.Success(200,
+                _mapper.Map<UserDto>(hasUser)));
         }
 
         [HttpGet("getfollows")]
         public async Task<IActionResult> GetFollows()
         {
-            var user = await _context.Users.Where(z => z.UserName == HttpContext.User.Identity!.Name).SingleOrDefaultAsync();
-            var userFollows = await _context.UserFollows.Where(z => z.FollowerId == user!.Id).ToListAsync();
+            var user = await _context.Users
+                .Where(z => z.UserName == HttpContext.User.Identity!.Name)
+                .SingleOrDefaultAsync();
+            var userFollows = await _context.UserFollows
+                .Where(z => z.FollowerId == user!.Id)
+                .ToListAsync();
             var userFollowsDto = new List<UserDto>();
 
             foreach (var userFollow in userFollows)
             {
-                var hasUser = await _context.Users.Where(z => z.Id == userFollow.FollowedId).Include(z => z.Preferences).ThenInclude(z=>z.Address).SingleOrDefaultAsync();
+                var hasUser = await _context.Users
+                    .Where(z => z.Id == userFollow.FollowedId)
+                    .Include(z => z.Preferences)
+                    .ThenInclude(z=>z.Address)
+                    .SingleOrDefaultAsync();
                
                 if (hasUser != null)
                 {
@@ -77,41 +67,58 @@ namespace RoommateMatcher.Controllers
                 }
             }
 
-            return CreateActionResult(CustomResponseDto<List<UserDto>>.Success(200, userFollowsDto));
+            return CreateActionResult(CustomResponseDto<List<UserDto>>
+                .Success(200, userFollowsDto));
         }
 
         // POST api/values
         [HttpPost("follow")]
         public async Task<IActionResult> PostAsync(string id)
         {
-            var user = await _context.Users.Where(z => z.UserName == HttpContext.User.Identity!.Name).SingleOrDefaultAsync();
-            var hasUser = await _context.Users.Where(z => z.Id == id).SingleOrDefaultAsync();
-            var hasEntity = await _context.UserFollows.Where(z => z.FollowerId == user!.Id && z.FollowedId == id).SingleOrDefaultAsync();
+            var user = await _context.Users
+                .Where(z => z.UserName == HttpContext.User.Identity!.Name)
+                .SingleOrDefaultAsync();
+            var hasUser = await _context.Users
+                .Where(z => z.Id == id)
+                .SingleOrDefaultAsync();
+            var hasEntity = await _context.UserFollows
+                .Where(z => z.FollowerId == user!.Id && z.FollowedId == id)
+                .SingleOrDefaultAsync();
 
             if (hasEntity != null)
             {
-                return CreateActionResult(CustomResponseDto<UserDto>.Fail(404, new List<string>() { "Kullanıcı bu kullanıcı zaten takip ediyor" }));
+                return CreateActionResult(CustomResponseDto<UserDto>.Fail(404,
+                    new List<string>()
+                    { "Kullanıcı bu kullanıcı zaten takip ediyor" }));
             }
 
             if (hasUser == null)
             {
-                return CreateActionResult(CustomResponseDto<UserDto>.Fail(404, new List<string>() { "Takip edilmek istenen kullanıcı bulunamadı" }));
+                return CreateActionResult(CustomResponseDto<UserDto>.Fail(404,
+                    new List<string>()
+                    { "Takip edilmek istenen kullanıcı bulunamadı" }));
             }
 
             await _context.UserFollows.AddAsync(new AppUserFollows()
             {
                 FollowedId = id,
-                FollowerId = user.Id
+                FollowerId = user!.Id
             });
 
             await _context.SaveChangesAsync();
 
-            var userFollows = await _context.UserFollows.Where(z => z.FollowerId == user.Id).ToListAsync();
+            var userFollows = await _context.UserFollows
+                .Where(z => z.FollowerId == user.Id)
+                .ToListAsync();
             var userFollowsDto = new List<UserDto>();
 
             foreach (var userFollow in userFollows)
             {
-                var hasUserFollow = await _context.Users.Where(z => z.Id == userFollow.FollowedId).Include(z => z.Preferences).ThenInclude(z => z.Address).SingleOrDefaultAsync();
+                var hasUserFollow = await _context.Users
+                    .Where(z => z.Id == userFollow.FollowedId)
+                    .Include(z => z.Preferences)
+                    .ThenInclude(z => z.Address)
+                    .SingleOrDefaultAsync();
 
                 if (hasUserFollow != null)
                 {
@@ -119,27 +126,40 @@ namespace RoommateMatcher.Controllers
                 }
             }
 
-            return CreateActionResult(CustomResponseDto<List<UserDto>>.Success(201,userFollowsDto));
+            return CreateActionResult(CustomResponseDto<List<UserDto>>
+                .Success(201,userFollowsDto));
         }
 
         // POST api/values
         [HttpPost("unfollow")]
         public async Task<IActionResult> Post(string id)
         {
-            var user = await _context.Users.Where(z => z.UserName == HttpContext.User.Identity!.Name).SingleOrDefaultAsync();
-            var hasUser = await _context.Users.Where(z => z.Id == id).SingleOrDefaultAsync();
-            var entity = await _context.UserFollows.Where(z => z.FollowedId == id && z.FollowerId == user!.Id).SingleOrDefaultAsync();
+            var user = await _context.Users
+                .Where(z => z.UserName == HttpContext.User.Identity!.Name)
+                .SingleOrDefaultAsync();
+            var hasUser = await _context.Users
+                .Where(z => z.Id == id)
+                .SingleOrDefaultAsync();
+            var entity = await _context.UserFollows
+                .Where(z => z.FollowedId == id && z.FollowerId == user!.Id)
+                .SingleOrDefaultAsync();
 
-             _context.UserFollows.Remove(entity);
+             _context.UserFollows.Remove(entity!);
 
             await _context.SaveChangesAsync();
 
-            var userFollows = await _context.UserFollows.Where(z => z.FollowerId == user!.Id).ToListAsync();
+            var userFollows = await _context.UserFollows
+                .Where(z => z.FollowerId == user!.Id)
+                .ToListAsync();
             var userFollowsDto = new List<UserDto>();
 
             foreach (var userFollow in userFollows)
             {
-                var hasUserFollow = await _context.Users.Where(z => z.Id == userFollow.FollowedId).Include(z => z.Preferences).ThenInclude(z => z.Address).SingleOrDefaultAsync();
+                var hasUserFollow = await _context.Users
+                    .Where(z => z.Id == userFollow.FollowedId)
+                    .Include(z => z.Preferences)
+                    .ThenInclude(z => z.Address)
+                    .SingleOrDefaultAsync();
 
                 if (hasUserFollow != null)
                 {
@@ -148,37 +168,48 @@ namespace RoommateMatcher.Controllers
             }
 
 
-            return CreateActionResult(CustomResponseDto<List<UserDto>>.Success(201,userFollowsDto));
+            return CreateActionResult(CustomResponseDto<List<UserDto>>
+                .Success(201,userFollowsDto));
         }
 
         // PUT api/values/5
         [HttpPut("disableuser")]
         public async Task<IActionResult> PutAsync()
         {
-            var user = await _context.Users.Where(z => z.UserName == HttpContext.User.Identity!.Name).Include(z=>z.Preferences).ThenInclude(z=>z.Address).SingleOrDefaultAsync();
+            var user = await _context.Users
+                .Where(z => z.UserName == HttpContext.User.Identity!.Name)
+                .Include(z=>z.Preferences)
+                .ThenInclude(z=>z.Address)
+                .SingleOrDefaultAsync();
 
-            user.Status = false;
+            user!.Status = false;
 
             _context.Users.Update(user);
 
             await _context.SaveChangesAsync();
             
-            return CreateActionResult(CustomResponseDto<UserDto>.Success(200, _mapper.Map<UserDto>(user)));
+            return CreateActionResult(CustomResponseDto<UserDto>
+                .Success(200, _mapper.Map<UserDto>(user)));
         }
 
         // PUT api/values/5
         [HttpPut("enableuser")]
         public async Task<IActionResult> Put()
         {
-            var user = await _context.Users.Where(z => z.UserName == HttpContext.User.Identity!.Name).Include(z => z.Preferences).ThenInclude(z => z.Address).SingleOrDefaultAsync();
+            var user = await _context.Users
+                .Where(z => z.UserName == HttpContext.User.Identity!.Name)
+                .Include(z => z.Preferences)
+                .ThenInclude(z => z.Address)
+                .SingleOrDefaultAsync();
 
-            user.Status = true;
+            user!.Status = true;
 
             _context.Users.Update(user);
 
             await _context.SaveChangesAsync();
 
-            return CreateActionResult(CustomResponseDto<UserDto>.Success(200, _mapper.Map<UserDto>(user)));
+            return CreateActionResult(CustomResponseDto<UserDto>
+                .Success(200, _mapper.Map<UserDto>(user)));
         }
 
     }

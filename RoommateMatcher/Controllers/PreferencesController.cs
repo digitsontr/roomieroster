@@ -29,9 +29,11 @@ namespace RoommateMatcher.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> PutAsync(UserPreferenecesDto preferences)
+        public async Task<IActionResult> PutAsync(UserPreferenecesDto
+            preferences)
         {
-            var hasUser = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+            var hasUser = await _userManager
+                .FindByNameAsync(HttpContext.User.Identity.Name);
 
             if (hasUser == null)
             {
@@ -47,22 +49,24 @@ namespace RoommateMatcher.Controllers
                 z => z.UserId == hasUser.Id)
                 .SingleOrDefaultAsync();
             var address = await _context.UserAddresses.Where(z =>
-            z.PreferencesId == userPreferences.Id).SingleOrDefaultAsync();
+            z.PreferencesId == userPreferences!.Id).SingleOrDefaultAsync();
 
-            address.Country = preferences.Address.Country;
+            address!.Country = preferences.Address.Country;
             address.City = preferences.Address.City;
             address.District = preferences.Address.District;
             address.Neighborhood = preferences.Address.Neighborhood;
 
-            userPreferences.SmokingAllowed = preferences.SmokingAllowed;
+            userPreferences!.SmokingAllowed = preferences.SmokingAllowed;
             userPreferences.GuestsAllowed = preferences.GuestsAllowed;
             userPreferences.PetsAllowed = preferences.PetsAllowed;
             userPreferences.GenderPref = preferences.GenderPref;
             userPreferences.ForeignersAllowed = preferences.ForeignersAllowed;
             userPreferences.AlcoholAllowed = preferences.AlcoholAllowed;
             userPreferences.Duration = preferences.Duration;
-            userPreferences.AcceptableRoommatesMax = preferences.AcceptableRoommatesMax;
-            userPreferences.AcceptableRoommatesMin = preferences.AcceptableRoommatesMin;
+            userPreferences.AcceptableRoommatesMax = preferences
+                .AcceptableRoommatesMax;
+            userPreferences.AcceptableRoommatesMin = preferences
+                .AcceptableRoommatesMin;
             userPreferences.BudgetMin = preferences.BudgetMin;
             userPreferences.BudgetMax = preferences.BudgetMax;
             userPreferences.HasHome = preferences.HasHome;
@@ -72,7 +76,8 @@ namespace RoommateMatcher.Controllers
 
             await _context.SaveChangesAsync();
 
-            return CreateActionResult(CustomResponseDto<UserDto>.Success(200,_mapper.Map<UserDto>(hasUser)));
+            return CreateActionResult(CustomResponseDto<UserDto>
+                .Success(200,_mapper.Map<UserDto>(hasUser)));
         }
     }
 }

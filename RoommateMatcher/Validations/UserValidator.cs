@@ -6,7 +6,8 @@ namespace RoommateMatcher.Validations
 {
     public class UserValidator : IUserValidator<AppUser>
     {
-        public Task<IdentityResult> ValidateAsync(UserManager<AppUser> manager, AppUser user)
+        public Task<IdentityResult> ValidateAsync(UserManager<AppUser> manager,
+            AppUser user)
         {
             var errors = new List<IdentityError>();
 

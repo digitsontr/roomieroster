@@ -17,7 +17,8 @@ namespace RoommateMatcher.Localization
         public override IdentityError DuplicateEmail(string email)
         {
             return new IdentityError() { Code = "DuplicateEmail",
-                Description = $"{email} adresi başkası tarafından kullanılıyor" };
+                Description =
+                $"{email} adresi başkası tarafından kullanılıyor" };
         }
 
         public override IdentityError PasswordTooShort(int length)
