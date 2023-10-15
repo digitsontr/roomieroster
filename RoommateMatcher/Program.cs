@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RoommateMatcher.Configuration;
+using RoommateMatcher.Hubs;
 using RoommateMatcher.Localization;
 using RoommateMatcher.Models;
 using RoommateMatcher.Services;
@@ -19,7 +20,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddIdentity<AppUser, AppRole>(options =>
 {
     options.User.RequireUniqueEmail = true;
-    options.SignIn.RequireConfirmedEmail = true;
+    options.SignIn.RequireConfirmedEmail = false;
     options.User.AllowedUserNameCharacters = "abcdefghijklmnoprstuvyzqxw1234567890._";
 
     options.Password.RequiredLength = 6;
@@ -40,8 +41,13 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.Configure<CustomTokenOption>(builder.Configuration.GetSection("TokenOption"));
 builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
 {
-    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+    builder.WithOrigins("localhost")
+       .AllowAnyHeader()
+       .AllowAnyMethod()
+       .AllowCredentials()
+       .SetIsOriginAllowed((host) => true);
 }));
+builder.Services.AddSignalR();
 builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
 {
     opt.TokenLifespan = TimeSpan.FromHours(3);
@@ -93,6 +99,8 @@ app.UseAuthentication();
 app.UseCors("corsapp");
 
 app.UseAuthorization();
+
+app.MapHub<ChatHub>("/chat");
 
 app.MapControllers();
 

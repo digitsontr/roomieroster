@@ -387,6 +387,52 @@ namespace RoommateMatcher.Migrations
                     b.ToTable("UserRefreshTokens");
                 });
 
+            modelBuilder.Entity("RoommateMatcher.Models.Chat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Chats");
+                });
+
+            modelBuilder.Entity("RoommateMatcher.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ChatId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReceiverId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChatId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("RoommateMatcher.Models.AppRole", null)
@@ -460,6 +506,17 @@ namespace RoommateMatcher.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("RoommateMatcher.Models.Message", b =>
+                {
+                    b.HasOne("RoommateMatcher.Models.Chat", "Chat")
+                        .WithMany("Messages")
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chat");
+                });
+
             modelBuilder.Entity("RoommateMatcher.Models.AppUser", b =>
                 {
                     b.Navigation("Preferences")
@@ -470,6 +527,11 @@ namespace RoommateMatcher.Migrations
                 {
                     b.Navigation("Address")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("RoommateMatcher.Models.Chat", b =>
+                {
+                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }

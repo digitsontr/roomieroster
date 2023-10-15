@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>6e4ec31e-a637-44ed-98e2-29e4072f226e</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
@@ -27,6 +28,7 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.6.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +41,8 @@
     <None Remove="Configuration\" />
     <None Remove="Extensions\" />
     <None Remove="Mapping\" />
+    <None Remove="Hubs\" />
+    <None Remove="Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -50,5 +54,7 @@
     <Folder Include="Configuration\" />
     <Folder Include="Extensions\" />
     <Folder Include="Mapping\" />
+    <Folder Include="Hubs\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 </Project>

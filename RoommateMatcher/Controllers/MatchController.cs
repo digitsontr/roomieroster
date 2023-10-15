@@ -7,8 +7,6 @@ using RoommateMatcher.Dtos;
 using RoommateMatcher.Extensions;
 using RoommateMatcher.Models;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace RoommateMatcher.Controllers
 {
     [Route("api/[controller]")]
@@ -26,7 +24,6 @@ namespace RoommateMatcher.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/values
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
@@ -40,16 +37,23 @@ namespace RoommateMatcher.Controllers
                 .ThenInclude(z=>z.Address)
                 .FilterByPreferences(hasUser!.Preferences, hasUser)
                 .ToList();
-            var matchedUserDtos = new List<UserDto>();
+            var followedUsers =  _context.UserFollows.Where(
+                z => z.FollowerId == hasUser.Id).ToList();
+            var matchedUserDtos = new List<MatchDto>();
 
             foreach (var user in allUsers)
             {
-                matchedUserDtos.Add(_mapper.Map<UserDto>(user));
+                matchedUserDtos.Add(new MatchDto()
+                {
+                    User = _mapper.Map<UserDto>(user),
+                    IsFolowing = followedUsers.Where(z => z.FollowedId
+                    == user.Id).Count() > 0
+                });
             }
 
             return CreateActionResult(CustomResponseDto<MatchesDto>.Success(200,
                 new MatchesDto() { Matches = matchedUserDtos
-                .Where(z=>z.Id != hasUser.Id)
+                .Where(z=>z.User.Id != hasUser.Id)
                 .ToList() }));
         }
     }
