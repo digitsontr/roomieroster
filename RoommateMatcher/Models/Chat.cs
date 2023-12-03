@@ -1,5 +1,4 @@
-﻿using System;
-namespace RoommateMatcher.Models
+﻿namespace RoommateMatcher.Models
 {
 	public class Chat
 	{

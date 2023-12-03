@@ -1,5 +1,4 @@
-﻿using System;
-namespace RoommateMatcher.Dtos
+﻿namespace RoommateMatcher.Dtos
 {
 	public class UserRefreshTokenDto
 	{

@@ -10,6 +10,7 @@
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
+    <PackageReference Include="Hangfire.SqlServer" Version="1.8.6" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.9" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
@@ -29,6 +30,8 @@
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.6" />
+    <PackageReference Include="Hangfire.Dashboard.Basic.Authentication" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,6 +46,8 @@
     <None Remove="Mapping\" />
     <None Remove="Hubs\" />
     <None Remove="Migrations\" />
+    <None Remove="Loggers\" />
+    <None Remove="Tasks\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -56,5 +61,7 @@
     <Folder Include="Mapping\" />
     <Folder Include="Hubs\" />
     <Folder Include="Migrations\" />
+    <Folder Include="Loggers\" />
+    <Folder Include="Tasks\" />
   </ItemGroup>
 </Project>

@@ -12,6 +12,7 @@ namespace RoommateMatcher.Models
         public DbSet<AppUserFollows> UserFollows { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<UnreadedChat> UnreadedChats { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) :base(options)
 		{

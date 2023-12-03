@@ -36,6 +36,7 @@
 /Users/alperenyurtseven/Documents/Publishes/Roomie/Microsoft.OpenApi.dll
 /Users/alperenyurtseven/Documents/Publishes/Roomie/Microsoft.SqlServer.Server.dll
 /Users/alperenyurtseven/Documents/Publishes/Roomie/Microsoft.Win32.SystemEvents.dll
+/Users/alperenyurtseven/Documents/Publishes/Roomie/Newtonsoft.Json.dll
 /Users/alperenyurtseven/Documents/Publishes/Roomie/Swashbuckle.AspNetCore.Swagger.dll
 /Users/alperenyurtseven/Documents/Publishes/Roomie/Swashbuckle.AspNetCore.SwaggerGen.dll
 /Users/alperenyurtseven/Documents/Publishes/Roomie/Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -43,6 +44,7 @@
 /Users/alperenyurtseven/Documents/Publishes/Roomie/System.Drawing.Common.dll
 /Users/alperenyurtseven/Documents/Publishes/Roomie/System.IdentityModel.Tokens.Jwt.dll
 /Users/alperenyurtseven/Documents/Publishes/Roomie/System.Memory.Data.dll
+/Users/alperenyurtseven/Documents/Publishes/Roomie/System.Net.WebSockets.WebSocketProtocol.dll
 /Users/alperenyurtseven/Documents/Publishes/Roomie/System.Runtime.Caching.dll
 /Users/alperenyurtseven/Documents/Publishes/Roomie/System.Security.Cryptography.ProtectedData.dll
 /Users/alperenyurtseven/Documents/Publishes/Roomie/System.Security.Permissions.dll

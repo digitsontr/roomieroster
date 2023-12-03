@@ -12,6 +12,10 @@
 /Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/FluentValidation.dll
 /Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/FluentValidation.AspNetCore.dll
 /Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/FluentValidation.DependencyInjectionExtensions.dll
+/Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/Hangfire.AspNetCore.dll
+/Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/Hangfire.Core.dll
+/Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/Hangfire.NetCore.dll
+/Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/Hangfire.SqlServer.dll
 /Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/Humanizer.dll
 /Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
 /Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/Microsoft.AspNetCore.Cryptography.Internal.dll
@@ -55,6 +59,20 @@
 /Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/System.Security.Cryptography.ProtectedData.dll
 /Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/System.Security.Permissions.dll
 /Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/System.Windows.Extensions.dll
+/Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/ca/Hangfire.Core.resources.dll
+/Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/de/Hangfire.Core.resources.dll
+/Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/es/Hangfire.Core.resources.dll
+/Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/fa/Hangfire.Core.resources.dll
+/Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/fr/Hangfire.Core.resources.dll
+/Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/nb/Hangfire.Core.resources.dll
+/Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/nl/Hangfire.Core.resources.dll
+/Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/pt-BR/Hangfire.Core.resources.dll
+/Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/pt-PT/Hangfire.Core.resources.dll
+/Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/pt/Hangfire.Core.resources.dll
+/Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/sv/Hangfire.Core.resources.dll
+/Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/tr-TR/Hangfire.Core.resources.dll
+/Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/zh-TW/Hangfire.Core.resources.dll
+/Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/zh/Hangfire.Core.resources.dll
 /Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/runtimes/unix/lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll
 /Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/runtimes/win/lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll
 /Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/runtimes/win-arm/native/Microsoft.Data.SqlClient.SNI.dll
@@ -88,3 +106,4 @@
 /Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/obj/Debug/net7.0/RoommateMatcher.pdb
 /Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/obj/Debug/net7.0/RoommateMatcher.genruntimeconfig.cache
 /Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/obj/Debug/net7.0/ref/RoommateMatcher.dll
+/Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/bin/Debug/net7.0/HangfireBasicAuthenticationFilter.dll

@@ -12,6 +12,7 @@ namespace RoommateMatcher.Mapping
 			CreateMap<AppUser, UserDto>();
             CreateMap<AppUserAddress, AddressDto>();
 			CreateMap<AppUserPreferences, UserPreferenecesDto>();
+			CreateMap<Message, MessageDto>();
 		}
 	}
 }

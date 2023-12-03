@@ -4,9 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using RoommateMatcher.Configuration;
 using RoommateMatcher.Hubs;
 using RoommateMatcher.Localization;
+using RoommateMatcher.Loggers;
 using RoommateMatcher.Models;
 using RoommateMatcher.Services;
 using RoommateMatcher.Validations;
+using Hangfire;
+using RoommateMatcher.Tasks;
+using HangfireBasicAuthenticationFilter;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +22,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"));
 });
+
+builder.Services.AddHangfire(config => config.UseSqlServerStorage(builder
+    .Configuration.GetConnectionString("SqlConnection")));
+
+
 builder.Services.AddIdentity<AppUser, AppRole>(options =>
 {
     options.User.RequireUniqueEmail = true;
@@ -35,6 +45,7 @@ builder.Services.AddIdentity<AppUser, AppRole>(options =>
 .AddDefaultTokenProviders()
 .AddEntityFrameworkStores<AppDbContext>();
 builder.Services.Configure<EmailOptions>(builder.Configuration.GetSection("Email"));
+builder.Services.Configure<RoommateMatcher.Models.UserOptions>(builder.Configuration.GetSection("UserOperations"));
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -53,6 +64,11 @@ builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
     opt.TokenLifespan = TimeSpan.FromHours(3);
 });
 builder.Services.AddAutoMapper(typeof(Program));
+
+var env = builder.Services.BuildServiceProvider().GetService<IWebHostEnvironment>();
+string logDirectory = Path.Combine(env.ContentRootPath, "logs");
+HubLogger logger = new HubLogger(logDirectory);
+builder.Services.AddSingleton(logger);
 
 var tokenOptions = builder.Configuration.GetSection("TokenOption").Get<CustomTokenOption>();
 
@@ -80,6 +96,17 @@ builder.Services.AddAuthentication(options =>
         OnAuthenticationFailed = context =>
         {
             return Task.CompletedTask;
+        },
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+            var path = context.HttpContext.Request.Path;
+            if (!string.IsNullOrEmpty(accessToken) &&
+                (path.StartsWithSegments("/chat")))
+            {
+                context.Token = accessToken;
+            }
+            return Task.CompletedTask;
         }
     };
 });
@@ -91,6 +118,25 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseHangfireDashboard("/hangfire", new DashboardOptions
+{
+    DashboardTitle = "My Website",
+    Authorization = new[]
+    {
+        new HangfireCustomBasicAuthenticationFilter{
+            User = builder.Configuration.GetSection("HangfireSettings:UserName").Value,
+            Pass = builder.Configuration.GetSection("HangfireSettings:Password").Value
+                }
+            }
+});
+
+app.UseHangfireServer();
+
+RecurringJob.AddOrUpdate<CheckUnreadMessagesTask>("CheckUnreadMessages",
+    x => x.CheckUnreadMessages(), Cron.Hourly);
+RecurringJob.AddOrUpdate<RemoveMessagesFromDbTask>("RemoveMessagesOlderThanTenDays",
+    x => x.RemoveMessagesOlderThanTenDays(), Cron.Daily);
 
 app.UseHttpsRedirection();
 

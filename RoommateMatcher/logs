@@ -1,0 +1,156 @@
+11/12/2023 8:27:00PM: INFO: User has been connected roomie.test.user
+11/12/2023 8:27:14PM: INFO: User has been connected roomie.test.user1
+11/12/2023 8:27:26PM: INFO: User has been connected roomie.test.user1
+11/12/2023 8:28:08PM: ERROR: An exception was thrown while attempting to evaluate a LINQ query parameter expression. See the inner exception for more information. To show additional information call 'DbContextOptionsBuilder.EnableSensitiveDataLogging'.
+11/12/2023 8:28:11PM: ERROR: An exception was thrown while attempting to evaluate a LINQ query parameter expression. See the inner exception for more information. To show additional information call 'DbContextOptionsBuilder.EnableSensitiveDataLogging'.
+11/12/2023 8:28:13PM: ERROR: An exception was thrown while attempting to evaluate a LINQ query parameter expression. See the inner exception for more information. To show additional information call 'DbContextOptionsBuilder.EnableSensitiveDataLogging'.
+11/12/2023 8:29:27PM: INFO: User has been connected roomie.test.user
+11/12/2023 8:29:30PM: INFO: User has been connected roomie.test.user
+11/12/2023 8:29:40PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:30:24PM: INFO: User has been connected roomie.test.user1
+11/12/2023 8:30:40PM: INFO: Message has been listed for user roomie.test.user
+11/12/2023 8:31:03PM: INFO: User has been connected roomie.test.user
+11/12/2023 8:31:07PM: INFO: Message has been listed for user roomie.test.user
+11/12/2023 8:32:50PM: INFO: Message has been listed for user roomie.test.user1
+11/12/2023 8:33:13PM: INFO: User has been connected roomie.test.user1
+11/12/2023 8:33:18PM: INFO: Message has been listed for user roomie.test.user1
+11/12/2023 8:33:18PM: INFO: Message has been listed for user roomie.test.user
+11/12/2023 8:34:41PM: INFO: User has been connected roomie.test.user1
+11/12/2023 8:34:46PM: INFO: Message has been listed for user roomie.test.user1
+11/12/2023 8:45:31PM: INFO: User has been connected roomie.test.user
+11/12/2023 8:45:47PM: INFO: User has been connected roomie.test.user1
+11/12/2023 8:45:55PM: ERROR: An exception was thrown while attempting to evaluate a LINQ query parameter expression. See the inner exception for more information. To show additional information call 'DbContextOptionsBuilder.EnableSensitiveDataLogging'.
+11/12/2023 8:46:21PM: ERROR: An exception was thrown while attempting to evaluate a LINQ query parameter expression. See the inner exception for more information. To show additional information call 'DbContextOptionsBuilder.EnableSensitiveDataLogging'.
+11/12/2023 8:46:22PM: ERROR: An exception was thrown while attempting to evaluate a LINQ query parameter expression. See the inner exception for more information. To show additional information call 'DbContextOptionsBuilder.EnableSensitiveDataLogging'.
+11/12/2023 8:46:23PM: ERROR: An exception was thrown while attempting to evaluate a LINQ query parameter expression. See the inner exception for more information. To show additional information call 'DbContextOptionsBuilder.EnableSensitiveDataLogging'.
+11/12/2023 8:46:23PM: ERROR: An exception was thrown while attempting to evaluate a LINQ query parameter expression. See the inner exception for more information. To show additional information call 'DbContextOptionsBuilder.EnableSensitiveDataLogging'.
+11/12/2023 8:47:21PM: INFO: User has been connected roomie.test.user1
+11/12/2023 8:47:23PM: ERROR: An exception was thrown while attempting to evaluate a LINQ query parameter expression. See the inner exception for more information. To show additional information call 'DbContextOptionsBuilder.EnableSensitiveDataLogging'.
+11/12/2023 8:48:01PM: INFO: User has been connected roomie.test.user
+11/12/2023 8:48:03PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:48:33PM: INFO: Message has been listed for user roomie.test.user
+11/12/2023 8:49:06PM: INFO: Message has been listed for user roomie.test.user1
+11/12/2023 8:50:27PM: INFO: User has been connected roomie.test.user
+11/12/2023 8:50:35PM: INFO: User has been connected roomie.test.user1
+11/12/2023 8:50:37PM: INFO: Message has been listed for user roomie.test.user1
+11/12/2023 8:50:46PM: INFO: Message has been listed for user roomie.test.user1
+11/12/2023 8:50:52PM: INFO: Message has been listed for user roomie.test.user1
+11/12/2023 8:51:22PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:24PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:24PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:25PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:25PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:26PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:26PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:27PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:27PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:27PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:27PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:27PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:28PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:28PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:28PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:28PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:28PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:28PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:29PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:29PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:29PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:29PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:29PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:29PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:29PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:48PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:48PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:49PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:49PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:49PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:49PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:49PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:49PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:49PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:49PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:50PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:50PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:50PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:50PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:50PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:50PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:51PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:51PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:51PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:51PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:51PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:51PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:52PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:52PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:52PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:52PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:53PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:53PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:53PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:53PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:53PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:54PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:54PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:51:54PM: INFO: Message has been sent to user roomie.test.user1
+11/12/2023 8:52:01PM: INFO: Message has been listed for user roomie.test.user1
+11/12/2023 8:52:47PM: INFO: User has been connected roomie.test.user
+11/12/2023 8:52:55PM: INFO: User has been connected roomie.test.user1
+11/12/2023 8:52:57PM: INFO: Message has been sent to user roomie.test.user
+11/12/2023 8:52:58PM: INFO: Message has been sent to user roomie.test.user
+11/12/2023 8:52:58PM: INFO: Message has been sent to user roomie.test.user
+11/12/2023 8:52:59PM: INFO: Message has been sent to user roomie.test.user
+11/12/2023 8:52:59PM: INFO: Message has been sent to user roomie.test.user
+11/12/2023 8:52:59PM: INFO: Message has been sent to user roomie.test.user
+11/12/2023 8:53:00PM: INFO: Message has been sent to user roomie.test.user
+11/12/2023 8:53:00PM: INFO: Message has been sent to user roomie.test.user
+11/12/2023 8:53:10PM: INFO: Message has been listed for user roomie.test.user
+11/12/2023 8:53:52PM: INFO: Message has been sent to user roomie.test.user
+11/12/2023 8:53:53PM: INFO: Message has been sent to user roomie.test.user
+11/12/2023 8:53:53PM: INFO: Message has been sent to user roomie.test.user
+11/12/2023 8:53:54PM: INFO: Message has been sent to user roomie.test.user
+11/12/2023 8:53:54PM: INFO: Message has been sent to user roomie.test.user
+11/12/2023 8:53:54PM: INFO: Message has been sent to user roomie.test.user
+11/12/2023 8:53:54PM: INFO: Message has been sent to user roomie.test.user
+11/12/2023 8:53:54PM: INFO: Message has been sent to user roomie.test.user
+11/12/2023 8:53:54PM: INFO: Message has been sent to user roomie.test.user
+11/12/2023 8:53:54PM: INFO: Message has been sent to user roomie.test.user
+11/12/2023 8:53:55PM: INFO: Message has been sent to user roomie.test.user
+11/12/2023 8:53:55PM: INFO: Message has been sent to user roomie.test.user
+11/12/2023 8:54:33PM: INFO: User has been connected roomie.test.user
+11/12/2023 8:54:35PM: INFO: Message has been listed for user roomie.test.user
+11/12/2023 8:54:39PM: INFO: Message has been listed for user roomie.test.user
+11/21/2023 6:12:29PM: INFO: User has been connected roomie.test.user
+11/21/2023 6:12:44PM: INFO: User has been connected roomie.test.user1
+11/21/2023 6:12:47PM: ERROR: Object reference not set to an instance of an object.
+11/21/2023 6:12:55PM: INFO: Message has been listed for user roomie.test.user1
+11/21/2023 6:13:02PM: INFO: Message has been listed for user roomie.test.user1
+11/21/2023 6:13:23PM: INFO: Message has been sent to user roomie.test.user
+11/21/2023 6:14:19PM: INFO: User has been connected roomie.test.user
+11/21/2023 6:14:29PM: INFO: User has been connected roomie.test.user1
+11/21/2023 6:14:37PM: INFO: Message has been listed for user roomie.test.user1
+11/21/2023 6:15:07PM: INFO: Message has been listed for user roomie.test.user1
+11/21/2023 6:15:13PM: INFO: Message has been listed for user roomie.test.user1
+11/21/2023 6:16:11PM: INFO: Message has been sent to user roomie.test.user
+11/21/2023 6:16:30PM: INFO: Message has been listed for user roomie.test.user
+11/21/2023 6:16:34PM: INFO: Message has been listed for user roomie.test.user
+12/2/2023 8:26:32AM: INFO: User has been connected roomie.test.user1
+12/2/2023 8:26:49AM: INFO: User has been connected roomie.test.user1
+12/2/2023 8:30:36AM: INFO: User has been connected roomie.test.user1
+12/2/2023 8:33:04AM: INFO: User has been connected roomie.test.user1
+12/2/2023 8:33:09AM: INFO: User has been disconnected roomie.test.user1
+12/2/2023 8:33:09AM: INFO: User has been connected roomie.test.user1
+12/2/2023 8:33:30AM: INFO: User has been disconnected roomie.test.user1
+12/2/2023 8:33:30AM: INFO: User has been connected roomie.test.user1
+12/2/2023 8:34:59AM: INFO: User has been disconnected roomie.test.user1
+12/3/2023 9:17:20AM: INFO: User has been connected roomie.test.user1
+12/3/2023 9:17:24AM: INFO: Message has been sent to user alp.yurtseven
+12/3/2023 9:17:24AM: ERROR: Sequence contains no elements
+12/3/2023 9:21:52AM: INFO: User has been connected roomie.test.user1
+12/3/2023 9:21:54AM: INFO: Message has been sent to user alp.yurtseven
+12/3/2023 9:21:54AM: ERROR: Object reference not set to an instance of an object.
+12/3/2023 9:22:12AM: INFO: Message has been sent to user alp.yurtseven
+12/3/2023 9:22:12AM: ERROR: Object reference not set to an instance of an object.
+12/3/2023 9:23:04AM: INFO: User has been connected roomie.test.user1
+12/3/2023 9:23:09AM: INFO: Message has been sent to user alp.yurtseven

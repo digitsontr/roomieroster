@@ -7,7 +7,7 @@ namespace RoommateMatcher.Extensions
     {
         public static IQueryable<AppUser> FilterByPreferences(
             this IQueryable<AppUser> users,
-            AppUserPreferences preferences,
+            AppUserPreferences preferences, 
             AppUser user)
         {
             var preferenceProperties = typeof(AppUserPreferences)
