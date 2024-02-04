@@ -7,6 +7,8 @@ namespace RoommateMatcher.Dtos
         public DateTime CreatedAt { get; set; }
         public string SenderUserName { get; set; }
         public string RecieverUserName { get; set; }
+        public string SenderFullName{ get; set; }
+        public string ReceiverFullName { get; set; }
     }
 }
 

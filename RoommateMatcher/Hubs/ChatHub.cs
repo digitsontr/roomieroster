@@ -68,6 +68,7 @@ namespace RoommateMatcher.Hubs
                     {
                         Content = Regex.Replace(message, @"<.*?>", string.Empty),
                         RecieverUserName = receiver.UserName,
+                      
                         SenderUserName = sender.Username,
                         CreatedAt = DateTime.Now,
                         ChatId = chatId
@@ -76,8 +77,10 @@ namespace RoommateMatcher.Hubs
                     await _context.Messages.AddAsync(messageModel);
                     await _context.SaveChangesAsync();
 
+                    MessageDto messageDto = new MessageDto() { Content = messageModel.Content, CreatedAt = messageModel.CreatedAt, RecieverUserName = messageModel.RecieverUserName, SenderUserName = messageModel.SenderUserName, ReceiverFullName = receiver.FirstName + " " + receiver.LastName, SenderFullName = sender.FirstName + " " + sender.LastName };
+
                     await Clients.Caller
-                            .NewMessage(_mapper.Map<MessageDto>(messageModel));
+                            .NewMessage(messageDto);
 
                     _logger.Log($"INFO: Message has been sent to user " +
                              $"{receiverName}");
@@ -86,7 +89,7 @@ namespace RoommateMatcher.Hubs
                         out string receiverConnectionId))
                     {
                         await Clients.Client(receiverConnectionId)
-                            .NewMessage(_mapper.Map<MessageDto>(messageModel));
+                            .NewMessage(messageDto);
                     }
                     else
                     {
@@ -172,26 +175,30 @@ namespace RoommateMatcher.Hubs
         {
             try
             {
-                var chats = _context.Chats.Include(z => z.Messages)
+                var chats = _context.Chats.AsNoTracking().Include(z => z.Messages)
                     .Where(t => t.Messages.Where(u => u.SenderUserName
                     == IdentityName || u.RecieverUserName == IdentityName)
-                    .Count() > 0);
-                var user = _context.Users
-                    .Where(z => z.UserName == chats.FirstOrDefault()
-                    .Messages.FirstOrDefault().SenderUserName ||
-                    z.UserName == chats.FirstOrDefault().Messages
-                    .FirstOrDefault().RecieverUserName).Where(z =>
-                    z.UserName != IdentityName).FirstOrDefault(); ;
+                    .Count() > 0).ToList();
+
                 var userChats = new List<ChatDto>();
 
                 foreach (var item in chats)
                 {
+                    var user = _context.Users.AsNoTracking()
+                    .Where(z => z.UserName == item
+                    .Messages.FirstOrDefault().SenderUserName ||
+                    z.UserName == item.Messages
+                    .FirstOrDefault().RecieverUserName).Where(z =>
+                    z.UserName != IdentityName).FirstOrDefault();
+
                     userChats.Add(new ChatDto()
                     {
                         Id = item.Id,
                         RecieverFullName = $"{user.FirstName} {user.LastName}",
                         LastMessage = item.Messages.LastOrDefault().Content,
-                        RecieverUserName = user.UserName
+                        RecieverUserName = user.UserName,
+                        RecieverProfilePhoto = user.ProfilePhoto,
+                        LastMessageDate = item.Messages.LastOrDefault().CreatedAt
                     });
                 }
                 

@@ -14,6 +14,16 @@ namespace RoommateMatcher.Localization
                 Description = $"{userName} başkası tarafından kullanılıyor" };
         }
 
+        public override IdentityError InvalidEmail(string? email)
+        {
+            return new IdentityError()
+            {
+                Code = "DuplicateEmail",
+                Description =
+                $"Lütfen e mail adresinizi kontrol ediniz"
+            };
+        }
+
         public override IdentityError DuplicateEmail(string email)
         {
             return new IdentityError() { Code = "DuplicateEmail",

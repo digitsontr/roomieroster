@@ -35,13 +35,13 @@ namespace RoommateMatcher.Services
             mailMessage.From = new MailAddress(_options.Username);
 
             mailMessage.To.Add(to);
+            string htmlContent = File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "MailTemplates", "EmailConfirmation.html"));
 
+            htmlContent = htmlContent.Replace("emailconfirmationlinkhere", confirmEmailLink);
+            htmlContent = htmlContent.Replace("logolinkhere", _options.WhiteDigitsonLogo);
 
-            mailMessage.Subject = "Roomie Email Adresi Doğrulama";
-            mailMessage.Body = @$"<h4>Email adresinizi doğrulamak için
-                            aşağıdaki bağlantıya tıklayınız.</h4>
-                            <p><a href={confirmEmailLink}>Email doğrulama
-                            bağlantısı</a></p>";
+            mailMessage.Subject = "RoomieRoster Email Adresi Doğrulama";
+            mailMessage.Body = htmlContent;
             mailMessage.IsBodyHtml = true;
 
             await smptClient.SendMailAsync(mailMessage);
@@ -62,14 +62,15 @@ namespace RoommateMatcher.Services
             smptClient.EnableSsl = true;
 
             var mailMessage = new MailMessage();
+            string htmlContent = File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "MailTemplates", "ResetPasswordTemplate.html"));
+
+            htmlContent = htmlContent.Replace("resetpasswordlinkhere", resetPasswordLink);
+            htmlContent = htmlContent.Replace("logolinkhere", _options.WhiteDigitsonLogo);
 
             mailMessage.From = new MailAddress(_options.Username);
             mailMessage.To.Add(to);
             mailMessage.Subject = "Roomie Şifre Sıfırlama Bağlantısı";
-            mailMessage.Body = @$"<h4>Şifrenizi yenilemek için aşağıdaki
-                            bağlantıya tıklayınız.</h4>
-                            <p><a href={resetPasswordLink}>Şifre sıfırlama
-                            bağlantısı</a></p>";
+            mailMessage.Body = htmlContent;
             mailMessage.IsBodyHtml = true;
 
             await smptClient.SendMailAsync(mailMessage);

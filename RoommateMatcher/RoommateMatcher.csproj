@@ -48,6 +48,10 @@
     <None Remove="Migrations\" />
     <None Remove="Loggers\" />
     <None Remove="Tasks\" />
+    <None Remove="Middlewares\" />
+    <None Remove="Exceptions\" />
+    <None Remove="MailTemplates\" />
+    <None Remove="Src\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -63,5 +67,9 @@
     <Folder Include="Migrations\" />
     <Folder Include="Loggers\" />
     <Folder Include="Tasks\" />
+    <Folder Include="Middlewares\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="MailTemplates\" />
+    <Folder Include="Src\" />
   </ItemGroup>
 </Project>

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "iPxMNN7nBSi7LEpV3FPeamWy2snWpRSUUVIrmISyoktbOStOOKj+JIkw3gJj8wZ4DYG/E42HifNUdfmxQhbtww==",
+  "dgSpecHash": "gJQ9BJWS+0TJye65e6sP1fW0D/oS6/a5sBPeiFsUJiU+9SkC3HyE1+gzyI6mItp/PIja9S1cS9TrFWwT1vh8eA==",
   "success": true,
-  "projectFilePath": "/Users/alperenyurtseven/Documents/Projects/RoommateMatcher/RoommateMatcher/RoommateMatcher.csproj",
+  "projectFilePath": "/Users/alperenyurtseven/Documents/Projects/Roomie/RoommateMatcher/RoommateMatcher.csproj",
   "expectedPackageFiles": [
     "/Users/alperenyurtseven/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
     "/Users/alperenyurtseven/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

@@ -11,11 +11,15 @@ using RoommateMatcher.Validations;
 using Hangfire;
 using RoommateMatcher.Tasks;
 using HangfireBasicAuthenticationFilter;
-using Microsoft.Extensions.Configuration;
+using RoommateMatcher.Middlewares;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -131,6 +135,7 @@ app.UseHangfireDashboard("/hangfire", new DashboardOptions
             }
 });
 
+
 app.UseHangfireServer();
 
 RecurringJob.AddOrUpdate<CheckUnreadMessagesTask>("CheckUnreadMessages",
@@ -139,6 +144,12 @@ RecurringJob.AddOrUpdate<RemoveMessagesFromDbTask>("RemoveMessagesOlderThanTenDa
     x => x.RemoveMessagesOlderThanTenDays(), Cron.Daily);
 
 app.UseHttpsRedirection();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "Src")),
+    RequestPath = "/Src"
+});
+app.UseCustomException();
 
 app.UseAuthentication();
 

@@ -6,6 +6,8 @@
 		public string RecieverFullName { get; set; }
 		public string LastMessage { get; set; }
 		public string RecieverUserName { get; set; }
+		public string RecieverProfilePhoto { get; set; }
+		public DateTime LastMessageDate { get; set; }
 	}
 }
 
