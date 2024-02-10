@@ -12,9 +12,9 @@ namespace RoommateMatcher.Models
         public byte AlcoholAllowed { get; set; } = 2;
         public byte Duration { get; set; } = 2;
         public int AcceptableRoommatesMin { get; set; } = 0;
-        public int AcceptableRoommatesMax { get; set; } = 999;
+        public int AcceptableRoommatesMax { get; set; } = 2;
         public float BudgetMin { get; set; } = 0;
-        public float BudgetMax { get; set; } = int.MaxValue;
+        public float BudgetMax { get; set; } = 5000;
         public bool HasHome { get; set; } = false;
 
         public string UserId { get; set; }
