@@ -10,6 +10,9 @@ namespace RoommateMatcher.Extensions
             AppUserPreferences preferences, 
             AppUser user)
         {
+            var b = users.ToList();
+            Console.WriteLine(users.ToList());
+
             var preferenceProperties = typeof(AppUserPreferences)
                 .GetProperties();
             var byteProperties = preferenceProperties
@@ -18,6 +21,7 @@ namespace RoommateMatcher.Extensions
                 .Where(z => z.PropertyType == typeof(int) ||
                     z.PropertyType == typeof(float)
                 );
+            var addressProperties = typeof(AppUserAddress).GetProperties();
 
             foreach (var property in byteProperties)
             {
@@ -44,13 +48,20 @@ namespace RoommateMatcher.Extensions
                         z.Preferences.PetsAllowed == 2)));
                         break;
                     case "GenderPref":
+                        var c = users.ToList();
+
                         users = users.Where(z => (z.Status &&
                         (z.Preferences.GenderPref == preferences.GenderPref
                         && (z.Gender == user.Gender
                         || (z.Preferences.GenderPref == 2 &&
                         preferences.GenderPref == 2)))
                         || (preferences.GenderPref == 2 &&
-                        z.Gender == user.Gender)));
+                        z.Preferences.GenderPref == user.Gender) ||
+                        (z.Preferences.GenderPref == user.Gender &&
+                        (preferences.GenderPref == 2 ||
+                        preferences.GenderPref == z.Gender))));
+
+                        var d = users.ToList();
                         break;
                     case "ForeignersAllowed":
                         users = users.Where(z => z.Status &&
@@ -72,47 +83,46 @@ namespace RoommateMatcher.Extensions
                         (preferences.Duration == 2 ||
                         z.Preferences.Duration == 2)));
                         break;
-                    case "Address":
-                        var addressProperties = typeof(AppUserAddress).GetProperties();
-                        foreach (var address in addressProperties)
-                        {
-                            switch (address.Name)
-                            {
-                                case "Country":
-                                    users = users.Where(z => z.Status &&
-                                    (preferences.Address.Country == "" ||
-                                    z.Preferences.Address.Country ==
-                                    preferences.Address.Country));
-                                    break;
-                                case "City":
-                                    users = users.Where(z => z.Status &&
-                                    (preferences.Address.City == "" ||
-                                    z.Preferences.Address.City ==
-                                    preferences.Address.City));
-                                    break;
-                                case "District":
-                                    users = users.Where(z => z.Status &&
-                                    (preferences.Address.District == "" ||
-                                    z.Preferences.Address.District ==
-                                    preferences.Address.District));
-                                    break;
-                                case "Neighborhood":
-                                    users = users.Where(z => z.Status &&
-                                    (preferences.Address.Neighborhood == "" ||
-                                    z.Preferences.Address.Neighborhood ==
-                                    preferences.Address.Neighborhood));
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
+                    default:
+                        break;
+                }
+            }
+            
+            foreach (var address in addressProperties)
+            {
+                switch (address.Name)
+                {
+                    case "Country":
+                        users = users.Where(z => z.Status &&
+                        (preferences.Address.Country == "" ||
+                        z.Preferences.Address.Country ==
+                        preferences.Address.Country));
+                        break;
+                    case "City":
+                        users = users.Where(z => z.Status &&
+                        (preferences.Address.City == "" ||
+                        z.Preferences.Address.City ==
+                        preferences.Address.City));
+                        break;
+                    case "District":
+                        users = users.Where(z => z.Status &&
+                        (preferences.Address.District == "" ||
+                        z.Preferences.Address.District ==
+                        preferences.Address.District));
+                        break;
+                    case "Neighborhood":
+                        users = users.Where(z => z.Status &&
+                        (preferences.Address.Neighborhood == "" ||
+                        z.Preferences.Address.Neighborhood ==
+                        preferences.Address.Neighborhood));
                         break;
                     default:
                         break;
                 }
             }
+         
 
-            foreach (var property in rangeProperties)
+                foreach (var property in rangeProperties)
             {
                 switch (property.Name)
                 {
