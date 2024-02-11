@@ -10,9 +10,6 @@ namespace RoommateMatcher.Extensions
             AppUserPreferences preferences, 
             AppUser user)
         {
-            var b = users.ToList();
-            Console.WriteLine(users.ToList());
-
             var preferenceProperties = typeof(AppUserPreferences)
                 .GetProperties();
             var byteProperties = preferenceProperties
@@ -48,8 +45,6 @@ namespace RoommateMatcher.Extensions
                         z.Preferences.PetsAllowed == 2)));
                         break;
                     case "GenderPref":
-                        var c = users.ToList();
-
                         users = users.Where(z => (z.Status &&
                         (z.Preferences.GenderPref == preferences.GenderPref
                         && (z.Gender == user.Gender
@@ -60,8 +55,6 @@ namespace RoommateMatcher.Extensions
                         (z.Preferences.GenderPref == user.Gender &&
                         (preferences.GenderPref == 2 ||
                         preferences.GenderPref == z.Gender))));
-
-                        var d = users.ToList();
                         break;
                     case "ForeignersAllowed":
                         users = users.Where(z => z.Status &&
