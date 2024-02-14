@@ -39,7 +39,7 @@ jobs:
 
             - name: Install dependencies
               run: dotnet restore
-              working-directory: src/RoommateMatcher
+              working-directory: /RoommateMatcher
               env:
                 NUGET_AUTH_TOKEN: ${{ github.token }}
                   
