@@ -85,6 +85,9 @@ $RECYCLE.BIN/
 *.userprefs
 
 # Build results
+**/bin/
+**/obj/
+**/logs/
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
