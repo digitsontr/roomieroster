@@ -54,7 +54,9 @@ namespace RoommateMatcher.Extensions
                         z.Preferences.GenderPref == user.Gender) ||
                         (z.Preferences.GenderPref == user.Gender &&
                         (preferences.GenderPref == 2 ||
-                        preferences.GenderPref == z.Gender))));
+                        preferences.GenderPref == z.Gender)) ||
+                        (z.Preferences.GenderPref == 2 &&
+                        z.Gender == preferences.GenderPref)));
                         break;
                     case "ForeignersAllowed":
                         users = users.Where(z => z.Status &&
