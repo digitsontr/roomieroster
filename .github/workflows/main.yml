@@ -42,7 +42,11 @@ jobs:
               working-directory: RoommateMatcher
               env:
                 NUGET_AUTH_TOKEN: ${{ github.token }}
-                  
+
+            - name: Print Sln Content
+              run: |
+                 cat RoommateMatcher.sln
+                    
             - name: Build
               run: dotnet publish --configuration Release
                 
