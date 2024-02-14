@@ -48,7 +48,7 @@ jobs:
                  cat RoommateMatcher.sln
                     
             - name: Build
-              run: dotnet publish --configuration Release
+              run: dotnet publish --configuration Develop
                 
             - name: Test
               run: |
