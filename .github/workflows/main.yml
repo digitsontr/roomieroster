@@ -43,7 +43,9 @@ jobs:
               run: dotnet publish --configuration Release
                 
             - name: Test
-              run: dotnet test --no-restore --verbosity normal
+              run: |
+                  cat RoommateMatcher.sln
+                  dotnet test --no-restore --verbosity normal
 
             # Clone this repository (deploy branch) inside the "deploy" folder
             # Before clearing out, move .git folder out of the "deploy" folder
