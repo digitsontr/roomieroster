@@ -9,6 +9,7 @@ namespace RoommateMatcher.Dtos
         public string RecieverUserName { get; set; }
         public string SenderFullName{ get; set; }
         public string ReceiverFullName { get; set; }
+        public int ChatId { get; set; }
     }
 }
 

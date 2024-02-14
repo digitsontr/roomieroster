@@ -77,7 +77,7 @@ namespace RoommateMatcher.Hubs
                     await _context.Messages.AddAsync(messageModel);
                     await _context.SaveChangesAsync();
 
-                    MessageDto messageDto = new MessageDto() { Content = messageModel.Content, CreatedAt = messageModel.CreatedAt, RecieverUserName = messageModel.RecieverUserName, SenderUserName = messageModel.SenderUserName, ReceiverFullName = receiver.FirstName + " " + receiver.LastName, SenderFullName = sender.FirstName + " " + sender.LastName };
+                    MessageDto messageDto = new MessageDto() { Content = messageModel.Content, CreatedAt = messageModel.CreatedAt, RecieverUserName = messageModel.RecieverUserName, SenderUserName = messageModel.SenderUserName, ReceiverFullName = receiver.FirstName + " " + receiver.LastName, SenderFullName = sender.FirstName + " " + sender.LastName, ChatId= chatId };
 
                     await Clients.Caller
                             .NewMessage(messageDto);
@@ -91,29 +91,28 @@ namespace RoommateMatcher.Hubs
                         await Clients.Client(receiverConnectionId)
                             .NewMessage(messageDto);
                     }
+                   
+                    var unreadedChat = _context.UnreadedChats
+                        .Where(z => z.ChatId == chatId).FirstOrDefault();
+
+                    if (unreadedChat != null)
+                    {
+                        unreadedChat.RecievedAt = DateTime.Now;
+
+                        _context.UnreadedChats.Update(unreadedChat);
+                    }
                     else
                     {
-                        var chat = _context.UnreadedChats
-                            .Where(z => z.ChatId == chatId).FirstOrDefault();
-
-                        if (chat != null)
+                        _context.UnreadedChats.Add(new UnreadedChat()
                         {
-                            chat.RecievedAt = DateTime.Now;
-
-                            _context.UnreadedChats.Update(chat);
-                        }
-                        else
-                        {
-                            _context.UnreadedChats.Add(new UnreadedChat()
-                            {
-                                ChatId = chatId,
-                                RecieverId = receiver.Id,
-                                RecievedAt = DateTime.Now
-                            });
-                        }
-
-                        await _context.SaveChangesAsync();
+                            ChatId = chatId,
+                            RecieverId = receiver.Id,
+                            RecievedAt = DateTime.Now
+                        });
                     }
+
+                    await _context.SaveChangesAsync();
+                    
                 }
             }
             catch(Exception ex)
@@ -132,8 +131,15 @@ namespace RoommateMatcher.Hubs
                 var messages = _context.Chats.Include(z => z.Messages)
                         .Where(z => z.Id == chatId).SingleOrDefault();
 
-                await Clients.Caller.PreviousMessages(
-                        _mapper.Map<List<MessageDto>>(messages.Messages));
+                var messageDtos = messages.Messages.Select(message =>
+                {
+                    var messageDto = _mapper.Map<MessageDto>(message);
+                    messageDto.ChatId = chatId;
+                    return messageDto;
+                }).ToList();
+
+                await Clients.Caller.PreviousMessages(messageDtos);
+
 
 
                 _logger.Log($"INFO: Message has been listed for user" +
@@ -151,17 +157,22 @@ namespace RoommateMatcher.Hubs
         {
             try
             {
+                var sender = _Connections[IdentityName];
                 var chat = _context.UnreadedChats
-                    .Where(z => z.ChatId == chatId).FirstOrDefault();
+                    .Where(z => z.ChatId == chatId && z.RecieverId == sender.Id).FirstOrDefault();
 
                 if (chat != null)
                 {
                     _context.UnreadedChats.Remove(chat);
-                }
 
-                await _context.SaveChangesAsync();
-                _logger.Log($"INFO: Message readed" +
-                    $" {IdentityName}");
+                    await _context.SaveChangesAsync();
+                    _logger.Log($"INFO: Message readed" +
+                        $" {IdentityName}");
+
+                    await Clients.Caller.MessageReaded(chatId);
+                }
+              
+             
             }
             catch (Exception ex)
             {
@@ -181,6 +192,8 @@ namespace RoommateMatcher.Hubs
                     .Count() > 0).ToList();
 
                 var userChats = new List<ChatDto>();
+                string senderId = _context.Users.AsNoTracking().Where(z => z.UserName == IdentityName).Select(z => z.Id).FirstOrDefault();
+               
 
                 foreach (var item in chats)
                 {
@@ -191,6 +204,8 @@ namespace RoommateMatcher.Hubs
                     .FirstOrDefault().RecieverUserName).Where(z =>
                     z.UserName != IdentityName).FirstOrDefault();
 
+                    bool isReaded = _context.UnreadedChats.AsNoTracking().Where(z => z.ChatId == item.Id && z.RecieverId == senderId).Count() == 0;
+
                     userChats.Add(new ChatDto()
                     {
                         Id = item.Id,
@@ -198,7 +213,8 @@ namespace RoommateMatcher.Hubs
                         LastMessage = item.Messages.LastOrDefault().Content,
                         RecieverUserName = user.UserName,
                         RecieverProfilePhoto = user.ProfilePhoto,
-                        LastMessageDate = item.Messages.LastOrDefault().CreatedAt
+                        LastMessageDate = item.Messages.LastOrDefault().CreatedAt,
+                        IsReaded= isReaded
                     });
                 }
                 
