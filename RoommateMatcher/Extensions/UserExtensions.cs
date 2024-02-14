@@ -47,7 +47,7 @@ namespace RoommateMatcher.Extensions
                     case "GenderPref":
                         users = users.Where(z => (z.Status &&
                         (z.Preferences.GenderPref == preferences.GenderPref
-                        && (z.Gender == user.Gender
+                        && (z.Preferences.GenderPref == user.Gender
                         || (z.Preferences.GenderPref == 2 &&
                         preferences.GenderPref == 2)))
                         || (preferences.GenderPref == 2 &&
