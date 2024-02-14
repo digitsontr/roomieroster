@@ -1,6 +1,9 @@
 name: create-develop-release
 
 on:
+    push:
+        branches:
+            - 'develop'
     pull_request:
         types: [closed]
         branches:
@@ -36,6 +39,7 @@ jobs:
 
             - name: Install dependencies
               run: dotnet restore
+              working-directory: src/RoommateMatcher
               env:
                 NUGET_AUTH_TOKEN: ${{ github.token }}
                   
