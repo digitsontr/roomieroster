@@ -8,6 +8,7 @@
 		public string RecieverUserName { get; set; }
 		public string RecieverProfilePhoto { get; set; }
 		public DateTime LastMessageDate { get; set; }
+		public bool IsReaded { get; set; }
 	}
 }
 

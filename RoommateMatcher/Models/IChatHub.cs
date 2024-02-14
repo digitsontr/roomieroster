@@ -9,6 +9,7 @@ namespace RoommateMatcher.Models
         Task PreviousMessages(List<MessageDto> previousMessages);
         Task Error(bool shouldClientSeeIt,string message);
         Task Connected(List<string> connectedUsers);
+        Task MessageReaded(int chatId);
     }
 }
 
