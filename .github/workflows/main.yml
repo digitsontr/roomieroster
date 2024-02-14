@@ -38,6 +38,9 @@ jobs:
               run: dotnet restore
               env:
                 NUGET_AUTH_TOKEN: ${{ github.token }}
+
+            - name: showSlnContent
+              run: cat /home/runner/work/roomieroster/roomieroster/RoommateMatcher.sln
                   
             - name: Build
               run: dotnet publish --configuration Develop
