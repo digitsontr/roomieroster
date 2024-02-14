@@ -69,7 +69,7 @@ jobs:
                 mkdir deploy
                 mv deploy-.git deploy/.git
                 cd deploy
-                cp -R ../bin/Release/net7.0/publish .
+                cp -R ../RoommateMatcher/bin/Develop/net7.0/publish .
                 git add .
                 git diff --staged --quiet || git commit -m "Update Artifacts"
                 git push
