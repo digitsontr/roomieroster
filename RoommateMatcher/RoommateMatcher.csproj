@@ -5,10 +5,28 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>6e4ec31e-a637-44ed-98e2-29e4072f226e</UserSecretsId>
+    <Configurations>Debug;Release;Develop</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <EnvironmentName>Development</EnvironmentName>
+</PropertyGroup>
+<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <EnvironmentName>Production</EnvironmentName>
+</PropertyGroup>
+<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Develop|AnyCPU'">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <EnvironmentName>Develop</EnvironmentName>
+</PropertyGroup>
+<PropertyGroup Condition=" '$(RunConfiguration)' == 'https_develop' " />
   <ItemGroup>
     <PackageReference Include="Hangfire.SqlServer" Version="1.8.6" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.9" />
@@ -33,6 +51,16 @@
     <PackageReference Include="Hangfire.AspNetCore" Version="1.8.6" />
     <PackageReference Include="Hangfire.Dashboard.Basic.Authentication" Version="7.0.1" />
   </ItemGroup>
+
+ <ItemGroup>
+  <None Include="logs" CopyToOutputDirectory="PreserveNewest" />
+  <Content Include="MailTemplates\**"> 
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory> 
+  </Content>
+  <Content Include="Src\**"> 
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory> 
+  </Content> 
+</ItemGroup>
 
   <ItemGroup>
     <None Remove="Controllers\" />
