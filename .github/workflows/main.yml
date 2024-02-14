@@ -1,6 +1,9 @@
 name: create-develop-release
 
 on:
+    push:
+        branches:
+            - 'develop'
     pull_request:
         types: [closed]
         branches:
@@ -36,17 +39,17 @@ jobs:
 
             - name: Install dependencies
               run: dotnet restore
+              working-directory: src/RoommateMatcher
               env:
                 NUGET_AUTH_TOKEN: ${{ github.token }}
-
-            - name: showSlnContent
-              run: cat /home/runner/work/roomieroster/roomieroster/RoommateMatcher.sln
                   
             - name: Build
-              run: dotnet publish --configuration Develop
+              run: dotnet publish --configuration Release
                 
             - name: Test
-              run: dotnet test --no-restore --verbosity normal
+              run: |
+                  cat RoommateMatcher.sln
+                  dotnet test --no-restore --verbosity normal
 
             # Clone this repository (deploy branch) inside the "deploy" folder
             # Before clearing out, move .git folder out of the "deploy" folder
