@@ -74,11 +74,6 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opts =>
 {
-    if (tokenOptions == null)
-    {
-        throw new Exception($"tokenOptions is null: is configuration available ? = {builder.Configuration["ContentRootPathDO"]}");
-    }
-
     opts.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
     {
         ValidIssuer = tokenOptions.Issuer,
