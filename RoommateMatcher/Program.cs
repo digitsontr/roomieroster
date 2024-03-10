@@ -73,6 +73,16 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opts =>
 {
+    if (opts == null)
+    {
+        throw new Exception("opts is null");
+    }
+
+    if (new Microsoft.IdentityModel.Tokens.TokenValidationParameters() == null)
+    {
+        throw new Exception("TokenValidationParameters is null");
+    }
+
     opts.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
     {
         ValidIssuer = tokenOptions.Issuer,
