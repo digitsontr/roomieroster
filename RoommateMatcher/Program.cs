@@ -11,6 +11,7 @@ using RoommateMatcher.Validations;
 using RoommateMatcher.Middlewares;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -74,6 +75,18 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opts =>
 {
+    if(tokenOptions == null)
+    {
+        tokenOptions = new CustomTokenOption()
+        {
+            AccessTokenExpiration = 1440,
+            RefreshTokenExpiration = 1440,
+            SecurityKey = "pZ7zEJrPbm8bRNeTtLpH7VcMLWxGKFfQOoX9qih2vAukjCSsIy0wYD5Ua1gd6*w",
+            Audience = new List<string>() { "www.memorengapi.com" },
+            Issuer = "www.memorengapi.com"
+        };
+    }
+
     opts.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
     {
         ValidIssuer = tokenOptions.Issuer,
