@@ -117,10 +117,14 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "Src")),
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Configuration["ContentRootPathDO"] ?? builder.Environment.ContentRootPath, "Src")),
     RequestPath = "/Src"
 });
-app.UseCustomException();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseCustomException();
+}
 
 app.UseAuthentication();
 
