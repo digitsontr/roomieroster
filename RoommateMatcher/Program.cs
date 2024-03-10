@@ -83,6 +83,11 @@ builder.Services.AddAuthentication(options =>
         throw new Exception("TokenValidationParameters is null");
     }
 
+    if (tokenOptions == null)
+    {
+        throw new Exception("tokenoptions is nulll");
+    }
+
     opts.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
     {
         ValidIssuer = tokenOptions.Issuer,
