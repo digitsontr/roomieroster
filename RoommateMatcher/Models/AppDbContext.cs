@@ -16,7 +16,8 @@ namespace RoommateMatcher.Models
 
         public AppDbContext(DbContextOptions<AppDbContext> options) :base(options)
 		{
-		}
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
