@@ -8,9 +8,6 @@ using RoommateMatcher.Loggers;
 using RoommateMatcher.Models;
 using RoommateMatcher.Services;
 using RoommateMatcher.Validations;
-using Hangfire;
-using RoommateMatcher.Tasks;
-using HangfireBasicAuthenticationFilter;
 using RoommateMatcher.Middlewares;
 using Microsoft.Extensions.FileProviders;
 
@@ -22,14 +19,8 @@ builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"));
-});
-
-builder.Services.AddHangfire(config => config.UseSqlServerStorage(builder
-    .Configuration.GetConnectionString("SqlConnection")));
-
+builder.Services.AddEntityFrameworkNpgsql().AddDbContext<AppDbContext>(opt =>
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
 
 builder.Services.AddIdentity<AppUser, AppRole>(options =>
 {
@@ -122,26 +113,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHangfireDashboard("/hangfire", new DashboardOptions
-{
-    DashboardTitle = "My Website",
-    Authorization = new[]
-    {
-        new HangfireCustomBasicAuthenticationFilter{
-            User = builder.Configuration.GetSection("HangfireSettings:UserName").Value,
-            Pass = builder.Configuration.GetSection("HangfireSettings:Password").Value
-                }
-            }
-});
-
-
-app.UseHangfireServer();
-
-RecurringJob.AddOrUpdate<CheckUnreadMessagesTask>("CheckUnreadMessages",
-    x => x.CheckUnreadMessages(), Cron.Hourly);
-RecurringJob.AddOrUpdate<RemoveMessagesFromDbTask>("RemoveMessagesOlderThanTenDays",
-    x => x.RemoveMessagesOlderThanTenDays(), Cron.Daily);
 
 app.UseHttpsRedirection();
 app.UseStaticFiles(new StaticFileOptions
