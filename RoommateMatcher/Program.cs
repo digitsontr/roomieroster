@@ -10,6 +10,7 @@ using RoommateMatcher.Services;
 using RoommateMatcher.Validations;
 using RoommateMatcher.Middlewares;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -85,7 +86,7 @@ builder.Services.AddAuthentication(options =>
 
     if (tokenOptions == null)
     {
-        throw new Exception("tokenoptions is nulll");
+        throw new Exception(builder.Configuration.GetSection("TokenOption").ToString());
     }
 
     opts.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
