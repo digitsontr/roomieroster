@@ -60,7 +60,10 @@ jobs:
 
             - name: Install SSH
               run: sudo apt-get install openssh-client -y
-
+              
+            - name: CheckFiles
+              run: cat ../RoommateMatcher/bin/Develop/net7.0/publish/appsettings.json
+              
             - name: Deploy to Droplet
               uses: appleboy/scp-action@master
               with:
