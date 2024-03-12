@@ -21,6 +21,12 @@ builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+if (builder.Configuration.GetConnectionString("PostgresConnection") == "")
+{
+    throw new Exception(builder.Configuration.GetConnectionString("PostgresConnection"));
+}
+
 builder.Services.AddEntityFrameworkNpgsql().AddDbContext<AppDbContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
 
@@ -126,8 +132,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-
-    throw new Exception(builder.Configuration["ContentRootPathDO"]);
 }
 
 app.UseHttpsRedirection();
