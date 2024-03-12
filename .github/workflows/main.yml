@@ -60,6 +60,15 @@ jobs:
 
             - name: Install SSH
               run: sudo apt-get install openssh-client -y
+
+            - name: Deploy to Droplet
+              uses: appleboy/scp-action@master
+              with:
+               host: ${{ secrets.DROPLET_HOST }}
+               username: ${{ secrets.DROPLET_USERNAME }}
+               key: ${{ secrets.DROPLET_SSH_KEY }}
+               source: "./RoommateMatcher/bin/Develop/net7.0/publish"
+               target: "/var/www/roomieroster"
         
             # Clone this repository (deploy branch) inside the "deploy" folder
             # Before clearing out, move .git folder out of the "deploy" folder
@@ -79,12 +88,3 @@ jobs:
                 git add .
                 git diff --staged --quiet || git commit -m "Update Artifacts"
                 git push
-
-            - name: Deploy to Droplet
-              uses: appleboy/scp-action@master
-              with:
-               host: ${{ secrets.DROPLET_HOST }}
-               username: ${{ secrets.DROPLET_USERNAME }}
-               key: ${{ secrets.DROPLET_SSH_KEY }}
-               source: "../RoommateMatcher/bin/Develop/net7.0/publish"
-               target: "/var/www/roomieroster"
