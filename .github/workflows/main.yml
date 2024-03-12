@@ -65,7 +65,7 @@ jobs:
               run: pwd
               
             - name: CheckFiles
-              run: ls
+              run: ls -R
 
             - name: Deploy to Droplet
               uses: appleboy/scp-action@master
