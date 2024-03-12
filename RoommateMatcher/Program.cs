@@ -71,26 +71,12 @@ builder.Services.AddSingleton(logger);
 
 var tokenOptions = builder.Configuration.GetSection("TokenOption").Get<CustomTokenOption>();
 
-logger.Log($"Configruation Settings ConnectionString: {builder.Configuration.GetConnectionString("PostgresConnection")}");
-
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opts =>
 {
-    if(tokenOptions == null)
-    {
-        tokenOptions = new CustomTokenOption()
-        {
-            AccessTokenExpiration = 1440,
-            RefreshTokenExpiration = 1440,
-            SecurityKey = "pZ7zEJrPbm8bRNeTtLpH7VcMLWxGKFfQOoX9qih2vAukjCSsIy0wYD5Ua1gd6*w",
-            Audience = new List<string>() { "www.memorengapi.com" },
-            Issuer = "www.memorengapi.com"
-        };
-    }
-
     opts.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
     {
         ValidIssuer = tokenOptions.Issuer,
@@ -135,7 +121,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Configuration["ContentRootPathDO"] ?? builder.Environment.ContentRootPath, "Src")),
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "Src")),
     RequestPath = "/Src"
 });
 
