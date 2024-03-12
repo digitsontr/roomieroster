@@ -126,6 +126,8 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    throw new Exception(builder.Configuration["ContentRootPathDO"]);
 }
 
 app.UseHttpsRedirection();
