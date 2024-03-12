@@ -86,5 +86,5 @@ jobs:
                host: ${{ secrets.DROPLET_HOST }}
                username: ${{ secrets.DROPLET_USERNAME }}
                key: ${{ secrets.DROPLET_SSH_KEY }}
-               source: "/home/runner/work/roomieroster/roomieroster/RoommateMatcher/bin/Develop/net7.0/publish/"
+               source: "../RoommateMatcher/bin/Develop/net7.0/publish"
                target: "/var/www/roomieroster"
