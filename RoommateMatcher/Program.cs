@@ -15,17 +15,13 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
 {
     options.SuppressModelStateInvalidFilter = true;
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-if (builder.Configuration.GetConnectionString("PostgresConnection") == "")
-{
-    throw new Exception(builder.Configuration.GetConnectionString("PostgresConnection"));
-}
 
 builder.Services.AddEntityFrameworkNpgsql().AddDbContext<AppDbContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
@@ -74,6 +70,8 @@ HubLogger logger = new HubLogger(logDirectory);
 builder.Services.AddSingleton(logger);
 
 var tokenOptions = builder.Configuration.GetSection("TokenOption").Get<CustomTokenOption>();
+
+logger.Log($"Configruation Settings ConnectionString: {builder.Configuration.GetConnectionString("PostgresConnection")}");
 
 builder.Services.AddAuthentication(options =>
 {
