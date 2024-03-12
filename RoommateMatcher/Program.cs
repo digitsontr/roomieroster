@@ -65,7 +65,7 @@ builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
 builder.Services.AddAutoMapper(typeof(Program));
 
 var env = builder.Services.BuildServiceProvider().GetService<IWebHostEnvironment>();
-string logDirectory = Path.Combine(env.ContentRootPath, "logs");
+string logDirectory = Path.Combine(builder.Configuration["ContentRootPathDO"] ?? env.ContentRootPath, "logs");
 HubLogger logger = new HubLogger(logDirectory);
 builder.Services.AddSingleton(logger);
 
