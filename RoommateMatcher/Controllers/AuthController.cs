@@ -54,8 +54,7 @@ namespace RoommateMatcher.Controllers
                 Gender = user.Gender,
             };
 
-            try
-            {
+           
             var identityResult = await _userManager.CreateAsync(identityUser,
               user.Password);
 
@@ -75,26 +74,23 @@ namespace RoommateMatcher.Controllers
 
                     await _context.UserPreferences.AddAsync(preferences);
 
+                    await _context.SaveChangesAsync();
+
                     var emailConfirmationToken = await _userManager
                         .GenerateEmailConfirmationTokenAsync(identityUser);
                     await _emailService
                         .SendEmailConfirmationLink(identityUser.Id,
                         emailConfirmationToken, identityUser.Email);
 
-                    await _context.SaveChangesAsync();
+                  
 
                     return CreateActionResult(CustomResponseDto<SignUpDto>
-                        .Success(201));
+                            .Success(201));
                 }
 
-                return CreateActionResult(CustomResponseDto<SignUpDto>
-                    .Fail(500, identityResult.Errors.Select(z => z.Description)
-                    .ToList()));
-            }
-            catch(Exception ex)
-            {
-                throw new Exception($"Identity issue: {ex.InnerException.Message}", ex);
-            }
+            return CreateActionResult(CustomResponseDto<SignUpDto>
+                .Fail(500, identityResult.Errors.Select(z => z.Description)
+                .ToList()));
         }
 
         [HttpPost("login")]
