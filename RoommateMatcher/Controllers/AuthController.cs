@@ -53,36 +53,40 @@ namespace RoommateMatcher.Controllers
                 Email = user.Email,
                 Gender = user.Gender,
             };
-           var identityResult = await _userManager.CreateAsync(identityUser,
-               user.Password);
 
-            if (identityResult.Succeeded)
-            {
-                var address = new AppUserAddress();
-                var preferences = new AppUserPreferences();
+           
+            var identityResult = await _userManager.CreateAsync(identityUser,
+              user.Password);
 
-                address.Country = "Türkiye";
-                address.City = "";
-                address.District = "";
-                address.Neighborhood = "";
+                if (identityResult.Succeeded)
+                {
+                    var address = new AppUserAddress();
+                    var preferences = new AppUserPreferences();
 
-                preferences.UserId = identityUser.Id;
-                preferences.GenderPref = identityUser.Gender;
-                preferences.Address = address;
+                    address.Country = "Türkiye";
+                    address.City = "";
+                    address.District = "";
+                    address.Neighborhood = "";
 
-                await _context.UserPreferences.AddAsync(preferences);
+                    preferences.UserId = identityUser.Id;
+                    preferences.GenderPref = identityUser.Gender;
+                    preferences.Address = address;
 
-                var emailConfirmationToken = await _userManager
-                    .GenerateEmailConfirmationTokenAsync(identityUser);
-                await _emailService
-                    .SendEmailConfirmationLink(identityUser.Id,
-                    emailConfirmationToken,identityUser.Email);
+                    await _context.UserPreferences.AddAsync(preferences);
 
-                await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
 
-                return CreateActionResult(CustomResponseDto<SignUpDto>
-                    .Success(201));
-            }
+                    var emailConfirmationToken = await _userManager
+                        .GenerateEmailConfirmationTokenAsync(identityUser);
+                    await _emailService
+                        .SendEmailConfirmationLink(identityUser.Id,
+                        emailConfirmationToken, identityUser.Email);
+
+                  
+
+                    return CreateActionResult(CustomResponseDto<SignUpDto>
+                            .Success(201));
+                }
 
             return CreateActionResult(CustomResponseDto<SignUpDto>
                 .Fail(500, identityResult.Errors.Select(z => z.Description)

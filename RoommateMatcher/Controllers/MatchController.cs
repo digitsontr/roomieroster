@@ -27,34 +27,45 @@ namespace RoommateMatcher.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            var hasUser = await _context.Users
+            try
+            {
+                var hasUser = await _context.Users
                 .Where(z => z.UserName == HttpContext.User.Identity!.Name)
                 .Include(z => z.Preferences)
-                .ThenInclude(z=>z.Address)
+                .ThenInclude(z => z.Address)
                 .SingleOrDefaultAsync();
-            var allUsers = _context.Users
-                .Include(z => z.Preferences)
-                .ThenInclude(z=>z.Address)
-                .FilterByPreferences(hasUser!.Preferences, hasUser)
-                .ToList();
-            var followedUsers =  _context.UserFollows.Where(
-                z => z.FollowerId == hasUser.Id).ToList();
-            var matchedUserDtos = new List<MatchDto>();
+                var allUsers = _context.Users
+                    .Include(z => z.Preferences)
+                    .ThenInclude(z => z.Address)
+                    .FilterByPreferences(hasUser!.Preferences, hasUser)
+                    .ToList();
+                var followedUsers = _context.UserFollows.Where(
+                    z => z.FollowerId == hasUser.Id).ToList();
+                var matchedUserDtos = new List<MatchDto>();
 
-            foreach (var user in allUsers)
-            {
-                matchedUserDtos.Add(new MatchDto()
+                foreach (var user in allUsers)
                 {
-                    User = _mapper.Map<UserDto>(user),
-                    IsFolowing = followedUsers.Where(z => z.FollowedId
-                    == user.Id).Count() > 0
-                });
-            }
+                    matchedUserDtos.Add(new MatchDto()
+                    {
+                        User = _mapper.Map<UserDto>(user),
+                        IsFolowing = followedUsers.Where(z => z.FollowedId
+                        == user.Id).Count() > 0
+                    });
+                }
 
-            return CreateActionResult(CustomResponseDto<MatchesDto>.Success(200,
-                new MatchesDto() { Matches = matchedUserDtos
-                .Where(z=>z.User.Id != hasUser.Id)
-                .ToList() }));
+                return CreateActionResult(CustomResponseDto<MatchesDto>.Success(200,
+                    new MatchesDto()
+                    {
+                        Matches = matchedUserDtos
+                    .Where(z => z.User.Id != hasUser.Id)
+                    .ToList()
+                    }));
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+          
         }
     }
 }
