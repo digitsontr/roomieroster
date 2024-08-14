@@ -12,6 +12,8 @@ namespace RoommateMatcher.Dtos
         public DateTime BirthDay { get; set; }
         public byte Gender { get; set; }
         public string ProfilePhoto { get; set; } = "defaultimage.png";
+
+        public string PublicKey { get; set; }
     }
 }
 

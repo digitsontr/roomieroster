@@ -10,8 +10,6 @@ using RoommateMatcher.Services;
 using RoommateMatcher.Validations;
 using RoommateMatcher.Middlewares;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +27,7 @@ builder.Services.AddEntityFrameworkNpgsql().AddDbContext<AppDbContext>(opt =>
 builder.Services.AddIdentity<AppUser, AppRole>(options =>
 {
     options.User.RequireUniqueEmail = true;
-    options.SignIn.RequireConfirmedEmail = false;
+    options.SignIn.RequireConfirmedEmail = true;
     options.User.AllowedUserNameCharacters = "abcdefghijklmnoprstuvyzqxw1234567890._";
 
     options.Password.RequiredLength = 6;
@@ -112,10 +110,8 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
-
 app.UseSwagger();
 app.UseSwaggerUI();
-
 
 app.UseHttpsRedirection();
 app.UseStaticFiles(new StaticFileOptions

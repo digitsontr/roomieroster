@@ -10,6 +10,7 @@ namespace RoommateMatcher.Dtos
 		public string Email { get; set; }
 		public string ProfilePhoto { get; set; }
 		public byte Gender { get; set; }
+		public string PublicKey { get; set; }
 		public UserPreferenecesDto Preferences { get; set; }
 	}
 }
