@@ -8,6 +8,7 @@ using System.Collections.Concurrent;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using RoommateMatcher.Loggers;
+using System.Numerics;
 
 namespace RoommateMatcher.Hubs
 {
@@ -68,7 +69,7 @@ namespace RoommateMatcher.Hubs
                     {
                         Content = Regex.Replace(message, @"<.*?>", string.Empty),
                         RecieverUserName = receiver.UserName,
-                      
+
                         SenderUserName = sender.Username,
                         CreatedAt = DateTime.Now,
                         ChatId = chatId
@@ -77,7 +78,7 @@ namespace RoommateMatcher.Hubs
                     await _context.Messages.AddAsync(messageModel);
                     await _context.SaveChangesAsync();
 
-                    MessageDto messageDto = new MessageDto() { Content = messageModel.Content, CreatedAt = messageModel.CreatedAt, RecieverUserName = messageModel.RecieverUserName, SenderUserName = messageModel.SenderUserName, ReceiverFullName = receiver.FirstName + " " + receiver.LastName, SenderFullName = sender.FirstName + " " + sender.LastName, ChatId= chatId };
+                    MessageDto messageDto = new MessageDto() { Content = messageModel.Content, CreatedAt = messageModel.CreatedAt, RecieverUserName = messageModel.RecieverUserName, SenderUserName = messageModel.SenderUserName, ReceiverFullName = receiver.FirstName + " " + receiver.LastName, SenderFullName = sender.FirstName + " " + sender.LastName, ChatId = chatId };
 
                     await Clients.Caller
                             .NewMessage(messageDto);
@@ -91,7 +92,7 @@ namespace RoommateMatcher.Hubs
                         await Clients.Client(receiverConnectionId)
                             .NewMessage(messageDto);
                     }
-                   
+
                     var unreadedChat = _context.UnreadedChats
                         .Where(z => z.ChatId == chatId).FirstOrDefault();
 
@@ -112,17 +113,16 @@ namespace RoommateMatcher.Hubs
                     }
 
                     await _context.SaveChangesAsync();
-                    
+
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Log($"ERROR: {ex.Message}");
                 await Clients.Caller.Error(false, ex.Message);
             }
-            
         }
-
+        
         public async Task GetMessagesByChat(int chatId)
         {
             try
@@ -145,12 +145,12 @@ namespace RoommateMatcher.Hubs
                 _logger.Log($"INFO: Message has been listed for user" +
                     $" {IdentityName}");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Log($"ERROR: {ex.Message}");
                 await Clients.Caller.Error(false, ex.Message);
             }
-           
+
         }
 
         public async Task ReadChat(int chatId)
@@ -171,8 +171,8 @@ namespace RoommateMatcher.Hubs
 
                     await Clients.Caller.MessageReaded(chatId);
                 }
-              
-             
+
+
             }
             catch (Exception ex)
             {
@@ -193,7 +193,7 @@ namespace RoommateMatcher.Hubs
 
                 var userChats = new List<ChatDto>();
                 string senderId = _context.Users.AsNoTracking().Where(z => z.UserName == IdentityName).Select(z => z.Id).FirstOrDefault();
-               
+
 
                 foreach (var item in chats)
                 {
@@ -214,10 +214,11 @@ namespace RoommateMatcher.Hubs
                         RecieverUserName = user.UserName,
                         RecieverProfilePhoto = user.ProfilePhoto,
                         LastMessageDate = item.Messages.LastOrDefault().CreatedAt,
-                        IsReaded= isReaded
+                        IsReaded = isReaded,
+                        PublicKey = BigInteger.Parse(user.PublicKey)
                     });
                 }
-                
+
                 await Clients.Caller.UserChats(userChats);
 
                 _logger.Log($"INFO: Message has been listed for user" +
@@ -247,7 +248,7 @@ namespace RoommateMatcher.Hubs
 
                 _logger.Log($"INFO: User has been connected {IdentityName}");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Log($"ERROR: {ex.Message}");
                 await Clients.Caller.Error(false, ex.Message);
@@ -271,7 +272,7 @@ namespace RoommateMatcher.Hubs
                 _logger.Log($"ERROR: {ex.Message}");
                 await Clients.Caller.Error(false, ex.Message);
             }
-           
+
             await base.OnDisconnectedAsync(exception);
         }
 

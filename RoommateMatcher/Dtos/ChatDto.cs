@@ -1,4 +1,6 @@
-﻿namespace RoommateMatcher.Dtos
+﻿using System.Numerics;
+
+namespace RoommateMatcher.Dtos
 {
 	public class ChatDto
 	{
@@ -8,6 +10,7 @@
 		public string RecieverUserName { get; set; }
 		public string RecieverProfilePhoto { get; set; }
 		public DateTime LastMessageDate { get; set; }
+		public BigInteger PublicKey { get; set; }
 		public bool IsReaded { get; set; }
 	}
 }

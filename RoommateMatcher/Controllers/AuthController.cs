@@ -31,7 +31,6 @@ namespace RoommateMatcher.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Post(SignUpDto user)
         {
-
             var validator = new RegisterDtoValidator();
             ValidationResult result = validator.Validate(user);
 
@@ -52,6 +51,7 @@ namespace RoommateMatcher.Controllers
                 Birthday = user.BirthDay,
                 Email = user.Email,
                 Gender = user.Gender,
+                PublicKey = user.PublicKey
             };
 
            
@@ -138,6 +138,21 @@ namespace RoommateMatcher.Controllers
             return CreateActionResult(await _authService
                 .ConfirmEmail(emailConfirmation.UserId,
                 emailConfirmation.Token));
+        }
+
+        [HttpGet("getbyusername")]
+        public async Task<IActionResult> GetByUserName(string username) 
+        {
+
+            return CreateActionResult(await _authService
+                .GetByUserName(username));
+        }
+
+        [HttpPost("savepublickey")]
+        public async Task<IActionResult> SavePublicKey(string userId, string publicKey)
+        {
+            return CreateActionResult(await _authService
+                .SavePublicKey(userId, publicKey));
         }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RoommateMatcher.Models;
@@ -11,9 +12,11 @@ using RoommateMatcher.Models;
 namespace RoommateMatcher.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240806181906_removedDH")]
+    partial class removedDH
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,10 +217,6 @@ namespace RoommateMatcher.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("ProfilePhoto")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PublicKey")
                         .IsRequired()
                         .HasColumnType("text");
 

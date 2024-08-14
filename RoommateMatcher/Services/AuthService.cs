@@ -1,30 +1,34 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RoommateMatcher.Dtos;
 using RoommateMatcher.Models;
 
 namespace RoommateMatcher.Services
 {
-	public class AuthService:IAuthService
-	{
+    public class AuthService : IAuthService
+    {
         private readonly ITokenService _tokenService;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly AppDbContext _context;
         private readonly IEmailService _emailService;
+        private readonly IMapper _mapper;
 
 
         public AuthService(ITokenService tokenService,
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             AppDbContext context,
-            IEmailService emailService)
+            IEmailService emailService,
+            IMapper mapper)
         {
             _tokenService = tokenService;
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
             _emailService = emailService;
+            _mapper = mapper;
         }
 
         public async Task<CustomResponseDto<TokenDto>> ConfirmEmail(
@@ -32,7 +36,7 @@ namespace RoommateMatcher.Services
         {
             var hasUser = await _userManager.FindByIdAsync(userId);
 
-            if(hasUser == null)
+            if (hasUser == null)
             {
                 return CustomResponseDto<TokenDto>.Fail(404,
                     "Böyle bir kullanıcı bulunmuyor");
@@ -52,11 +56,11 @@ namespace RoommateMatcher.Services
                 {
                     await _context.UserRefreshTokens
                         .AddAsync(new AppUserRefreshToken()
-                    {
-                        Code = accessToken.RefreshToken,
-                        Expiration = accessToken.RefreshTokenExpiration,
-                        UserId = hasUser.Id
-                    });
+                        {
+                            Code = accessToken.RefreshToken,
+                            Expiration = accessToken.RefreshTokenExpiration,
+                            UserId = hasUser.Id
+                        });
 
 
                     await _context
@@ -81,7 +85,7 @@ namespace RoommateMatcher.Services
 
             return CustomResponseDto<TokenDto>.Fail(404,
                 result.Errors
-                .Select(z=>z.Description)
+                .Select(z => z.Description)
                 .ToList());
         }
 
@@ -89,9 +93,9 @@ namespace RoommateMatcher.Services
             LogInDto loginDTO)
         {
             var hasUser = await _context.Users
-                .Where(z=>z.Email == loginDTO.Email)
-                .Include(z=>z.Preferences)
-                .ThenInclude(z=>z.Address)
+                .Where(z => z.Email == loginDTO.Email)
+                .Include(z => z.Preferences)
+                .ThenInclude(z => z.Address)
                 .SingleOrDefaultAsync();
 
             if (hasUser == null)
@@ -122,7 +126,7 @@ namespace RoommateMatcher.Services
                             UserId = hasUser.Id
                         });
 
-                   await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
                 }
                 else
                 {
@@ -185,17 +189,31 @@ namespace RoommateMatcher.Services
 
             if (hasUser == null)
             {
-                return  CustomResponseDto<TokenDto>.Fail(404,
+                return CustomResponseDto<TokenDto>.Fail(404,
                     new List<string>() {
                         "Bu e mail adresine sahip bir kullanıcı bulunmuyor."});
             }
-             
+
             string passwordRefreshToken = await _userManager
                 .GeneratePasswordResetTokenAsync(hasUser);
             await _emailService.SendResetPasswordEmail(hasUser.Id,
                 passwordRefreshToken, hasUser.Email);
 
             return CustomResponseDto<TokenDto>.Success(200);
+        }
+
+        public async Task<CustomResponseDto<UserDto>> GetByUserName(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+
+            if (user == null)
+            {
+                return CustomResponseDto<UserDto>.Fail(404,
+                    new List<string>() {
+                        "Kullanıcı Bulunamadı"});
+            }
+
+            return CustomResponseDto<UserDto>.Success(200, _mapper.Map<UserDto>(user));
         }
 
         public async Task<CustomResponseDto<TokenDto>> ResetPassword(
@@ -205,8 +223,8 @@ namespace RoommateMatcher.Services
 
             if (hasUser == null)
             {
-                CustomResponseDto<TokenDto>.Fail(404,
-                   new List<string>() {
+                return CustomResponseDto<TokenDto>.Fail(404,
+                    new List<string>() {
                         "Kullanıcı Bulunamadı"});
             }
 
@@ -247,7 +265,7 @@ namespace RoommateMatcher.Services
             }
 
             return CustomResponseDto<TokenDto>.Fail(404,
-                result.Errors.Select(z=>z.Description).ToList());
+                result.Errors.Select(z => z.Description).ToList());
         }
 
         public async Task<CustomResponseDto<TokenDto>> RevokeRefreshToken(
@@ -269,6 +287,31 @@ namespace RoommateMatcher.Services
             await _context.SaveChangesAsync();
 
             return CustomResponseDto<TokenDto>.Success(200);
+        }
+
+        public async Task<CustomResponseDto<object>> SavePublicKey(string userId, string publicKey)
+        {
+            var hasUser = await _userManager.FindByIdAsync(userId);
+
+            if (hasUser == null)
+            {
+                return CustomResponseDto<object>.Fail(404,
+                    new List<string>() {
+                        "Kullanıcı Bulunamadı"});
+            }
+            
+            hasUser.PublicKey = publicKey;
+
+            var result = await _userManager.UpdateAsync(hasUser);
+
+            if (!result.Succeeded)
+            {
+                return CustomResponseDto<object>.Fail(500,
+                                   result.Errors.Select(z => z.Description).ToList());
+            }
+
+
+            return CustomResponseDto<object>.Success(201);
         }
     }
 }
