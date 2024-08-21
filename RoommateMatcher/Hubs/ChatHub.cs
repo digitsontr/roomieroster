@@ -83,7 +83,7 @@ namespace RoommateMatcher.Hubs
 					await _context.Messages.AddAsync(messageModel);
 					await _context.SaveChangesAsync();
 
-					MessageDto messageDto = new MessageDto() { Content = messageModel.Content, CreatedAt = messageModel.CreatedAt, RecieverUserName = messageModel.RecieverUserName, SenderUserName = messageModel.SenderUserName, ReceiverFullName = receiver.FirstName + " " + receiver.LastName, SenderFullName = sender.FirstName + " " + sender.LastName, ChatId = chatId };
+					MessageDto messageDto = new MessageDto() { Content = await _encryptionService.DecryptAsync(messageModel.Content), CreatedAt = messageModel.CreatedAt, RecieverUserName = messageModel.RecieverUserName, SenderUserName = messageModel.SenderUserName, ReceiverFullName = receiver.FirstName + " " + receiver.LastName, SenderFullName = sender.FirstName + " " + sender.LastName, ChatId = chatId };
 
 					await Clients.Caller
 							.NewMessage(messageDto);
@@ -142,14 +142,13 @@ namespace RoommateMatcher.Hubs
 							var messageDto = _mapper.Map<MessageDto>(message);
 							messageDto.ChatId = chatId;
 
-							// Mesaj içeriğini şifre çözme işlemi
 							messageDto.Content = await _encryptionService.DecryptAsync(message.Content);
 
 							return messageDto;
 						})
 						).ConfigureAwait(false);
 
-				await Clients.Caller.PreviousMessages(messageDtos.ToList());
+				await Clients.Caller.PreviousMessages(messageDtos.OrderBy(z=>z.CreatedAt).ToList());
 
 				_logger.Log($"INFO: Message has been listed for user" +
 					$" {IdentityName}");
